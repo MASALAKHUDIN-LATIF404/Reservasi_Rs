@@ -1,0 +1,128 @@
+{
+    "users": {
+        "admin": {
+            "id": "1",
+            "password": "adminpass",
+            "role": "admin"
+        },
+        "latif": {
+            "id": "2",
+            "password": "admin",
+            "role": "user"
+        },
+        "staff": {
+            "id": "3",
+            "password": "staffpass",
+            "role": "staff"
+        }
+    },
+    "departments": {
+        "1": {
+            "name": "Penyakit Dalam ( Non Operasi )"
+        },
+        "2": {
+            "name": "Bedah"
+        },
+        "3": {
+            "name": "Anak"
+        },
+        "4": {
+            "name": "Kebidanan"
+        },
+        "5": {
+            "name": "Poliklinik Umum"
+        },
+        "6": {
+            "name": "Gigi dan Mulut"
+        },
+        "7": {
+            "name": "Syaraf"
+        }
+    },
+    "doctors": {
+        "1": {
+            "name": "Dr. Ahmad",
+            "specialty_id": "1",
+            "phone": "081234567890"
+        },
+        "2": {
+            "name": "Dr. Siti",
+            "specialty_id": "2",
+            "phone": "081234567891"
+        },
+        "3": {
+            "name": "Dr. Budi",
+            "specialty_id": "3",
+            "phone": "081234567892"
+        }
+    },
+    "rooms": {
+        "1": {
+            "name": "Melati 101",
+            "type": "VIP",
+            "is_available": true
+        },
+        "2": {
+            "name": "Anggrek 202",
+            "type": "Kelas 1",
+            "is_available": true
+        },
+        "3": {
+            "name": "Mawar 303",
+            "type": "Kelas 2",
+            "is_available": false
+        },
+        "4": {
+            "name": "MAM 401",
+            "type": "VIP",
+            "is_available": true
+        }
+    },
+    "patients": {
+        "1": {
+            "name": "Husni",
+            "phone": "0895-4336-8754",
+            "address": "Krapyak",
+            "birth_date": "2007-05-15",
+            "created_at": "2025-10-23 15:06:05"
+        },
+        "2": {
+            "name": "latif",
+            "phone": "0895-3236-02277",
+            "address": "Banyumas",
+            "birth_date": "2004-05-15",
+            "created_at": "2025-10-23 15:30:21"
+        },
+        "3": {
+            "name": "eksa",
+            "phone": "6355464",
+            "address": "bsgfdknd",
+            "birth_date": "2764-37-73",
+            "created_at": "2025-10-23 15:35:27"
+        },
+        "4": {
+            "name": "0",
+            "phone": "",
+            "address": "",
+            "birth_date": "",
+            "created_at": "2025-10-23 20:00:36"
+        }
+    },
+    "schedules": {
+        "1": {
+            "doctor_id": "1",
+            "available_date": "2025-10-24",
+            "available_time": "10:00 - 15:00",
+            "is_available": true
+        },
+        "3": {
+            "doctor_id": "3",
+            "available_date": "2025-10-26",
+            "available_time": "10:00 - 16:30",
+            "is_available": true
+        }
+    },
+    "appointments": {},
+    "checkups": {},
+    "admissions": {}
+}
