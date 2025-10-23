@@ -5,7 +5,7 @@ from datetime import datetime
 from fungsi.color import *
 
 # --- Menu User Biasa ---
-def menu_user(data, current_username):
+def menu_user(data, current_username, patient_id):
     while True:
         print(f"\n--- Menu User ({H}{current_username}{R}) ---")
         print("1. Lihat Jadwal Tersedia")
@@ -22,19 +22,19 @@ def menu_user(data, current_username):
             lihat_jadwal_tersedia(data)
         elif choice == '2':
             clear_screen()
-            buat_janji_user(data, current_username)
+            buat_janji_user(data, current_username, patient_id)
         elif choice == '3':
             clear_screen()
-            lihat_janji_user(data, current_username)
+            lihat_janji_user(data, current_username, patient_id)
         elif choice == '4':
             clear_screen()
-            lihat_riwayat_user(data, current_username)
+            lihat_riwayat_user(data, current_username, patient_id)
         elif choice == '5':
             clear_screen()
-            lihat_riwayat_inap(data, current_username)
+            lihat_riwayat_inap(data, current_username, patient_id)
         elif choice == '6':  # Menu baru untuk pembayaran
             clear_screen()
-            menu_pembayaran_user(data, current_username)
+            menu_pembayaran_user(data, current_username, patient_id)
         elif choice == '0':
             confirm = input("Apakah Anda Yakin Ingin Kembali ke Menu Utama? [Y/N] : ").lower()
             if confirm == 'y':
@@ -50,7 +50,7 @@ def menu_user(data, current_username):
             clear_screen()
 
 # --- Menu Pembayaran untuk User ---
-def menu_pembayaran_user(data, current_username):
+def menu_pembayaran_user(data, current_username, patient_id):
     while True:
         print(f"\n--- {H}Menu Pembayaran{R} ({current_username}) ---")
         print("1. Lihat Tagihan Saya")
@@ -61,13 +61,13 @@ def menu_pembayaran_user(data, current_username):
 
         if choice == '1':
             clear_screen()
-            lihat_tagihan_user(data, current_username)
+            lihat_tagihan_user(data, current_username, patient_id)
         elif choice == '2':
             clear_screen()
-            lihat_riwayat_pembayaran_user(data, current_username)
+            lihat_riwayat_pembayaran_user(data, current_username, patient_id)
         elif choice == '3':
             clear_screen()
-            bayar_tagihan_user(data, current_username)
+            bayar_tagihan_user(data, current_username, patient_id)
         elif choice == '0':
             break
         else:
@@ -76,15 +76,8 @@ def menu_pembayaran_user(data, current_username):
             clear_screen()
 
 # --- Fungsi Lihat Tagihan User ---
-def lihat_tagihan_user(data, current_username):
+def lihat_tagihan_user(data, current_username, patient_id):
     print(f"\n--- {H}Tagihan Saya{R} ---")
-    
-    # Cari ID pasien berdasarkan username
-    patient_id = None
-    for pid, pinfo in data["patients"].items():
-        if pinfo["name"].lower() == current_username.lower():
-            patient_id = pid
-            break
 
     if not patient_id:
         print(Fore.RED + "Anda belum terdaftar sebagai pasien.")
@@ -122,15 +115,8 @@ def lihat_tagihan_user(data, current_username):
     print(f"\n{H}Total Tagihan: Rp {total_pending:,}{R}")
 
 # --- Fungsi Lihat Riwayat Pembayaran User ---
-def lihat_riwayat_pembayaran_user(data, current_username):
+def lihat_riwayat_pembayaran_user(data, current_username, patient_id):
     print(f"\n--- {H}Riwayat Pembayaran Saya{R} ---")
-    
-    # Cari ID pasien berdasarkan username
-    patient_id = None
-    for pid, pinfo in data["patients"].items():
-        if pinfo["name"].lower() == current_username.lower():
-            patient_id = pid
-            break
 
     if not patient_id:
         print(Fore.RED + "Anda belum terdaftar sebagai pasien.")
@@ -175,15 +161,8 @@ def lihat_riwayat_pembayaran_user(data, current_username):
     print(f"\n{H}Total Sudah Dibayar: Rp {total_paid:,}{R}")
 
 # --- Fungsi Bayar Tagihan User ---
-def bayar_tagihan_user(data, current_username):
+def bayar_tagihan_user(data, current_username, patient_id):
     print(f"\n--- {H}Bayar Tagihan{R} ---")
-    
-    # Cari ID pasien berdasarkan username
-    patient_id = None
-    for pid, pinfo in data["patients"].items():
-        if pinfo["name"].lower() == current_username.lower():
-            patient_id = pid
-            break
 
     if not patient_id:
         print(Fore.RED + "Anda belum terdaftar sebagai pasien.")
@@ -309,14 +288,8 @@ def bayar_tagihan_user(data, current_username):
         print("Pembayaran dibatalkan.")
 
 # --- Fungsi Lihat Riwayat Rawat Inap User ---
-def lihat_riwayat_inap(data, current_username):
+def lihat_riwayat_inap(data, current_username, patient_id):
     print("\n--- Riwayat Rawat Inap ---")
-    # Cari ID pasien berdasarkan username
-    patient_id = None
-    for pid, pinfo in data["patients"].items():
-        if pinfo["name"].lower() == current_username.lower():
-            patient_id = pid
-            break
 
     if not patient_id:
         print(Fore.RED + "Anda belum terdaftar sebagai pasien.")
@@ -387,14 +360,8 @@ def lihat_jadwal_tersedia(data):
         print(f"ID Jadwal: {sid}, Dokter: {doctor_info['name']}, Departemen: {dept_info['name']}, Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}")
 
 # --- Fungsi Buat Janji (untuk User) ---
-def buat_janji_user(data, current_username):
+def buat_janji_user(data, current_username, patient_id):
     print("\n--- Buat Janji Saya ---")
-    # Cari ID pasien berdasarkan username (asumsi username = nama pasien atau terkait)
-    patient_id = None
-    for pid, pinfo in data["patients"].items():
-        if pinfo["name"].lower() == current_username.lower():
-            patient_id = pid
-            break
 
     if not patient_id:
         print(Fore.RED + f"Anda ({current_username}) belum terdaftar sebagai pasien. Silakan daftar dulu atau hubungi staff.")
@@ -444,14 +411,8 @@ def buat_janji_user(data, current_username):
     print(f"{H}Tagihan sebesar Rp 150.000 telah dibuat. Silakan cek menu Pembayaran.{R}")
 
 # --- Fungsi Lihat Janji Saya (untuk User) ---
-def lihat_janji_user(data, current_username):
+def lihat_janji_user(data, current_username, patient_id):
     print("\n--- Janji Saya ---")
-    # Cari ID pasien
-    patient_id = None
-    for pid, pinfo in data["patients"].items():
-        if pinfo["name"].lower() == current_username.lower():
-            patient_id = pid
-            break
 
     if not patient_id:
         print(Fore.RED + "Anda belum terdaftar sebagai pasien.")
@@ -483,14 +444,8 @@ def lihat_janji_user(data, current_username):
         print()
 
 # --- Fungsi Lihat Riwayat Kesehatan Saya (untuk User) ---
-def lihat_riwayat_user(data, current_username):
+def lihat_riwayat_user(data, current_username, patient_id):
     print("\n--- Riwayat Kesehatan Saya ---")
-    # Cari ID pasien
-    patient_id = None
-    for pid, pinfo in data["patients"].items():
-        if pinfo["name"].lower() == current_username.lower():
-            patient_id = pid
-            break
 
     if not patient_id:
         print(Fore.RED + "Anda belum terdaftar sebagai pasien.")

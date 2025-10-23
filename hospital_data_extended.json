@@ -5,25 +5,16 @@
             "password": "adminpass",
             "role": "admin"
         },
-        "latif": {
-            "id": "2",
-            "password": "admin",
-            "role": "user"
-        },
         "staff": {
-            "id": "3",
+            "id": "2",
             "password": "staffpass",
             "role": "staff"
         },
-        "iqbal": {
-            "id": "4",
+        "hendra": {
+            "id": "3",
             "password": "admin",
-            "role": "user"
-        },
-        "Test": {
-            "id": "5",
-            "password": "test",
-            "role": "user"
+            "role": "user",
+            "patient_id": "1"
         }
     },
     "departments": {
@@ -85,112 +76,63 @@
         "4": {
             "name": "MAM 401",
             "type": "VIP",
-            "is_available": false
+            "is_available": true
         }
     },
     "patients": {
         "1": {
-            "name": "Husni",
-            "phone": "0895-4336-8754",
-            "address": "Krapyak",
-            "birth_date": "2007-05-15",
-            "created_at": "2025-10-23 15:06:05"
-        },
-        "2": {
-            "name": "latif",
-            "phone": "0895-3236-02277",
-            "address": "Banyumas",
-            "birth_date": "2004-05-15",
-            "created_at": "2025-10-23 15:30:21"
-        },
-        "3": {
-            "name": "eksa",
-            "phone": "6355464",
-            "address": "bsgfdknd",
-            "birth_date": "2764-37-73",
-            "created_at": "2025-10-23 15:35:27"
-        },
-        "4": {
-            "name": "Iqbal",
-            "phone": "0898",
-            "address": "Test",
-            "birth_date": "2006-07-17",
-            "created_at": "2025-10-23 20:34:24"
-        },
-        "5": {
-            "name": "Test",
-            "phone": "089",
-            "address": "anjay",
-            "birth_date": "2025-9-17",
-            "created_at": "2025-10-23 21:08:12"
+            "name": "Hendra Kustiawan",
+            "phone": "089865",
+            "address": "fghklkl",
+            "birth_date": "6758-76-79",
+            "created_at": "2025-10-23 23:44:50"
         }
     },
     "schedules": {
         "1": {
             "doctor_id": "1",
-            "available_date": "2025-10-24",
+            "available_date": "2025-10-25",
+            "available_time": "08:00 - 13:00",
+            "is_available": true
+        },
+        "2": {
+            "doctor_id": "3",
+            "available_date": "2025-10-28",
             "available_time": "10:00 - 15:00",
-            "is_available": false
+            "is_available": true
         },
         "3": {
-            "doctor_id": "1",
-            "available_date": "2025-10-23",
-            "available_time": "00:00 - 23:59",
+            "doctor_id": "2",
+            "available_date": "2025-10-29",
+            "available_time": "13:00 - 19:00",
             "is_available": false
         }
     },
     "appointments": {
         "1": {
-            "patient_id": "4",
-            "schedule_id": "1",
-            "booking_date": "2025-10-23 20:39:13",
-            "status": "Completed"
-        },
-        "2": {
-            "patient_id": "5",
+            "patient_id": "1",
             "schedule_id": "3",
-            "booking_date": "2025-10-23 21:08:27",
-            "status": "Scheduled"
-        },
-        "3": {
-            "patient_id": "4",
-            "schedule_id": "3",
-            "booking_date": "2025-10-23 21:38:17",
+            "booking_date": "2025-10-23 23:48:32",
             "status": "Completed"
         }
     },
     "checkups": {
         "1": {
             "appointment_id": "1",
-            "checkup_date": "2025-10-23 20:45:51",
-            "diagnosis": "pilek",
-            "notes": "paracetamol"
-        },
-        "2": {
-            "appointment_id": "3",
-            "checkup_date": "2025-10-23 21:45:32",
-            "diagnosis": "Demam",
-            "notes": "anjay"
+            "checkup_date": "2025-10-23 23:53:00",
+            "diagnosis": "flu",
+            "notes": "tidur"
         }
     },
-    "admissions": {
-        "1": {
-            "patient_id": "4",
-            "appointment_id": "1",
-            "room_id": "4",
-            "admission_date": "2025-10-23",
-            "discharge_date": "2025-10-30",
-            "status": "Admitted"
-        }
-    },
+    "admissions": {},
     "payments": {
         "1": {
-            "appointment_id": "3",
-            "patient_id": "4",
+            "appointment_id": "1",
+            "patient_id": "1",
             "amount": 150000,
-            "payment_date": "2025-10-23 21:46:48",
+            "payment_date": "2025-10-23 23:50:13",
             "status": "Paid",
-            "payment_method": "Cash",
+            "payment_method": "Transfer Bank",
             "service_type": "Konsultasi Umum"
         }
     }

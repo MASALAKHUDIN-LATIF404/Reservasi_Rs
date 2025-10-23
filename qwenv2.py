@@ -32,16 +32,20 @@ def main():
         choice = input("Pilih menu: ")
 
         if choice == '1':
-            user_id, username, role = login(data)
-            clear_screen()
-            if role == 'admin':
-                menu_admin(data)
-            elif role == 'staff':
-                menu_staff(data)
-            elif role == 'user':
-                menu_user(data, username)
+            user_id, username, role, patient_id = login(data)
+            if user_id: # Jika login berhasil (user_id tidak None)
+                clear_screen()
+                if role == 'admin':
+                    menu_admin(data)
+                elif role == 'staff':
+                    menu_staff(data)
+                elif role == 'user':
+                    menu_user(data, username, patient_id) # Teruskan patient_id
+                else:
+                    print(Fore.RED + "Role tidak dikenali.")
             else:
-                print(Fore.RED + "Role tidak dikenali.")
+                time.sleep(2)
+                clear_screen()
         elif choice == '2':
             register(data)
         elif choice == '3':

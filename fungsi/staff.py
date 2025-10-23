@@ -208,7 +208,7 @@ def data_jadwal(data):
                     doctor_info = data["doctors"].get(sinfo["doctor_id"], {"name": "Tidak Ditemukan"})
                     dept_info = data["departments"].get(data["doctors"].get(sinfo["doctor_id"], {}).get("specialty_id"), {"name": "Tidak Ditemukan"})["name"]
                     status = "Tersedia" if sinfo.get("is_available", True) else "Tidak Tersedia"
-                print(f"ID: {sid}, Dokter: {doctor_info['name']}, Departemen: {dept_info}, Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}, Status: {H}{status}{R}")
+                    print(f"ID: {sid}, Dokter: {doctor_info['name']}, Departemen: {dept_info}, Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}, Status: {H}{status}{R}")
         elif choice == '2':
             print(f"\n{H}Daftar Dokter:{R}")
             for doc_id, doc_info in data["doctors"].items():
@@ -281,9 +281,31 @@ def data_jadwal(data):
                 if is_booked:
                     print(Fore.RED + f"Jadwal ID {schedule_id} sedang dipesan oleh pasien. Tidak bisa dihapus.")
                 else:
+                    # Hapus jadwal yang dipilih
                     del data["schedules"][schedule_id]
+
+                    # --- Logika untuk mengurutkan ulang ID Jadwal ---
+                    new_schedules = {}
+                    id_map = {}
+                    # Urutkan ID lama secara numerik untuk konsistensi
+                    sorted_old_ids = sorted(data["schedules"].keys(), key=int)
+
+                    for i, old_id in enumerate(sorted_old_ids):
+                        new_id = str(i + 1)
+                        new_schedules[new_id] = data["schedules"][old_id]
+                        if old_id != new_id:
+                            id_map[old_id] = new_id
+                    
+                    # Ganti dictionary schedules lama dengan yang baru
+                    data["schedules"] = new_schedules
+
+                    # Perbarui referensi schedule_id di appointments
+                    for app_info in data["appointments"].values():
+                        if app_info.get("schedule_id") in id_map:
+                            app_info["schedule_id"] = id_map[app_info["schedule_id"]]
+
                     save_data(data)
-                    print("Jadwal dokter berhasil dihapus.")
+                    print(f"{H}[🗸] Jadwal dokter berhasil dihapus dan semua ID terkait telah diurutkan ulang.{R}")
             else:
                 print(Fore.RED + "ID Jadwal tidak ditemukan.")
         elif choice == '0':
@@ -696,7 +718,7 @@ def menu_pembayaran(data):
                 save_data(data)
                 print(f"{H}[🗸] Data pembayaran berhasil dihapus.{R}")
             else:
-                print("Penghapusan dibatalkan.")
+                print(f"{H}[🗸] Penghapusan dibatalkan.{R}")
 
         elif choice == '0':
             break

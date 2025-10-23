@@ -4,7 +4,6 @@ import time
 from fungsi.core import *
 from colorama import Fore
 from fungsi.color import *
-from qwenv2 import main
 
 # --- Fungsi Login ---
 def login(data):
@@ -16,12 +15,12 @@ def login(data):
         user = data["users"].get(username)
         if user and user["password"] == password:
             print(f"\nLogin berhasil! Selamat datang, {username} (Role: {user['role']})")
-            return user["id"], username, user["role"]
+            # Jika login berhasil, kembalikan ID pasien jika ada
+            return user.get("id"), username, user.get("role"), user.get("patient_id")
         else:
             print(Fore.RED + "Username atau password salah. Silakan coba lagi.")
-            time.sleep(3) # untuk memberi jeda 2 detik sebelum reset layar (clear)
-            clear_screen() # fungsi reset (clear terminal)
-            main() # mengembalikan ke funsgi menu utama
+            # Kembalikan None jika login gagal
+            return None, None, None, None
 
 # --- Fungsi Register (Hanya untuk user biasa, role 'user') ---
 def register(data):
@@ -62,7 +61,12 @@ def register(data):
                 pass
         patient_id = str(max_patient_id + 1)
 
-        data["users"][username] = {"id": user_id, "password": password, "role": role}
+        data["users"][username] = {
+            "id": user_id, 
+            "password": password, 
+            "role": role,
+            "patient_id": patient_id  # Tautkan user baru ke patient_id baru
+        }
         save_data(data)
         data["patients"][patient_id] = {
             "name": name,
@@ -77,3 +81,4 @@ def register(data):
         print(f"{H}[🗸]Registrasi berhasil! Silakan login.{R}")
         time.sleep(3)
         clear_screen()
+        # Kembali ke menu utama setelah registrasi
