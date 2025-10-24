@@ -1,6 +1,7 @@
 import json
 import os
 
+from colorama import Fore # Import Fore untuk penggunaan warna
 
 
 DATA_FILE = "hospital_data_extended.json"
@@ -51,17 +52,10 @@ def get_default_data_structure():
         "schedules": {},
         "appointments": {},
         "checkups": {},
-        "admissions": {} # Rawat Inap
+        "admissions": {}, # Rawat Inap
+        "payments": {} # Tambahkan kunci 'payments'
     }
 
 def save_data(data):
     with open(DATA_FILE, "w") as f:
         json.dump(data, f, indent=4)
-
-# sebuah fungsi untuk membersihkan layar terminal
-def clear_screen():
-    os_name = os.name # untuk mendeteksi nama sistem operasi yang digunakan ('nt' = Windows, 'posix' = Linux/Mac)
-    if os_name == 'nt': # Jika sistem operasi terdeteksi Windows
-        os.system('cls') # Otomatis jalankan perintah 'cls' untuk membersihkan layar terminal di Windows
-    else: # Jika sistem operasi terdeteksi Linux/Mac
-        os.system('clear') # Otomatis jalankan perintah 'clear' untuk membersihkan layar terminal di Linux/Mac

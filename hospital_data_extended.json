@@ -15,6 +15,12 @@
             "password": "admin",
             "role": "user",
             "patient_id": "1"
+        },
+        "putri": {
+            "id": "4",
+            "password": "putri123",
+            "role": "user",
+            "patient_id": "2"
         }
     },
     "departments": {
@@ -61,7 +67,7 @@
         "1": {
             "name": "Melati 101",
             "type": "VIP",
-            "is_available": true
+            "is_available": false
         },
         "2": {
             "name": "Anggrek 202",
@@ -86,6 +92,13 @@
             "address": "fghklkl",
             "birth_date": "6758-76-79",
             "created_at": "2025-10-23 23:44:50"
+        },
+        "2": {
+            "name": "Putri Dewi Lestari",
+            "phone": "0895-7356-7466",
+            "address": "Beringin Kencana",
+            "birth_date": "2004-05-15",
+            "created_at": "2025-10-24 14:30:07"
         }
     },
     "schedules": {
@@ -99,7 +112,7 @@
             "doctor_id": "3",
             "available_date": "2025-10-28",
             "available_time": "10:00 - 15:00",
-            "is_available": true
+            "is_available": false
         },
         "3": {
             "doctor_id": "2",
@@ -114,6 +127,12 @@
             "schedule_id": "3",
             "booking_date": "2025-10-23 23:48:32",
             "status": "Completed"
+        },
+        "2": {
+            "patient_id": "2",
+            "schedule_id": "2",
+            "booking_date": "2025-10-24 14:31:51",
+            "status": "Completed"
         }
     },
     "checkups": {
@@ -122,9 +141,24 @@
             "checkup_date": "2025-10-23 23:53:00",
             "diagnosis": "flu",
             "notes": "tidur"
+        },
+        "2": {
+            "appointment_id": "2",
+            "checkup_date": "2025-10-24 16:02:13",
+            "diagnosis": "corona",
+            "notes": "perlu rawat inap"
         }
     },
-    "admissions": {},
+    "admissions": {
+        "1": {
+            "patient_id": "2",
+            "appointment_id": "2",
+            "room_id": "1",
+            "admission_date": "2025-10-24",
+            "discharge_date": "2025-10-29",
+            "status": "Admitted"
+        }
+    },
     "payments": {
         "1": {
             "appointment_id": "1",
@@ -134,6 +168,15 @@
             "status": "Paid",
             "payment_method": "Transfer Bank",
             "service_type": "Konsultasi Umum"
+        },
+        "2": {
+            "appointment_id": "2",
+            "patient_id": "2",
+            "amount": 3500000,
+            "payment_date": "2025-10-24 15:55:33",
+            "status": "Paid",
+            "payment_method": "Cash",
+            "service_type": "Isolasi Corona"
         }
     }
 }

@@ -5,8 +5,9 @@ from datetime import datetime
 from fungsi.color import *
 
 # --- Menu User Biasa ---
-def menu_user(data, current_username, patient_id):
+def menu_user(current_username, patient_id):
     while True:
+        data = load_data() # Muat data setiap kali menu utama user ditampilkan
         print(f"\n--- Menu User ({H}{current_username}{R}) ---")
         print("1. Lihat Jadwal Tersedia")
         print("2. Buat Janji Saya")
@@ -14,7 +15,7 @@ def menu_user(data, current_username, patient_id):
         print("4. Lihat Riwayat Kesehatan Saya")
         print("5. Lihat Riwayat Rawat Inap Saya")
         print("6. Data Pembayaran Saya")  # Menu baru untuk pembayaran
-        print("0. Kembali ke Menu Utama")
+        print("0. Logout Menu User")
         choice = input("Pilih menu: ")
 
         if choice == '1':
@@ -41,7 +42,7 @@ def menu_user(data, current_username, patient_id):
                 clear_screen()
                 break
             else:
-                print("Aksi dibatalkan.")
+                print(f"{H}[🗸] Aksi dibatalkan.{R}")
                 time.sleep(2)
                 clear_screen()
         else:
@@ -50,9 +51,10 @@ def menu_user(data, current_username, patient_id):
             clear_screen()
 
 # --- Menu Pembayaran untuk User ---
-def menu_pembayaran_user(data, current_username, patient_id):
+def menu_pembayaran_user(data, current_username, patient_id): # data di-pass dari menu_user
     while True:
-        print(f"\n--- {H}Menu Pembayaran{R} ({current_username}) ---")
+        data = load_data() # Muat ulang data
+        print(f"\n--- Menu Pembayaran ({H}{current_username}{R}) ---")
         print("1. Lihat Tagihan Saya")
         print("2. Lihat Riwayat Pembayaran")
         print("3. Bayar Tagihan")
@@ -69,6 +71,8 @@ def menu_pembayaran_user(data, current_username, patient_id):
             clear_screen()
             bayar_tagihan_user(data, current_username, patient_id)
         elif choice == '0':
+            time.sleep(2)
+            clear_screen()
             break
         else:
             print(Fore.RED + "Pilihan tidak valid.")
@@ -77,6 +81,7 @@ def menu_pembayaran_user(data, current_username, patient_id):
 
 # --- Fungsi Lihat Tagihan User ---
 def lihat_tagihan_user(data, current_username, patient_id):
+    # Fungsi ini dipanggil sekali, jadi data yang di-pass sudah cukup baru
     print(f"\n--- {H}Tagihan Saya{R} ---")
 
     if not patient_id:
@@ -116,6 +121,7 @@ def lihat_tagihan_user(data, current_username, patient_id):
 
 # --- Fungsi Lihat Riwayat Pembayaran User ---
 def lihat_riwayat_pembayaran_user(data, current_username, patient_id):
+    # Fungsi ini dipanggil sekali, jadi data yang di-pass sudah cukup baru
     print(f"\n--- {H}Riwayat Pembayaran Saya{R} ---")
 
     if not patient_id:
@@ -162,6 +168,7 @@ def lihat_riwayat_pembayaran_user(data, current_username, patient_id):
 
 # --- Fungsi Bayar Tagihan User ---
 def bayar_tagihan_user(data, current_username, patient_id):
+    # Fungsi ini dipanggil sekali, jadi data yang di-pass sudah cukup baru
     print(f"\n--- {H}Bayar Tagihan{R} ---")
 
     if not patient_id:
@@ -289,6 +296,7 @@ def bayar_tagihan_user(data, current_username, patient_id):
 
 # --- Fungsi Lihat Riwayat Rawat Inap User ---
 def lihat_riwayat_inap(data, current_username, patient_id):
+    # Fungsi ini dipanggil sekali, jadi data yang di-pass sudah cukup baru
     print("\n--- Riwayat Rawat Inap ---")
 
     if not patient_id:
@@ -345,6 +353,7 @@ def lihat_riwayat_inap(data, current_username, patient_id):
 
 # --- Fungsi Lihat Jadwal Tersedia (untuk User) ---
 def lihat_jadwal_tersedia(data):
+    # Fungsi ini dipanggil sekali, jadi data yang di-pass sudah cukup baru
     print("\n--- Jadwal Dokter Tersedia ---")
     # Filter hanya jadwal yang tersedia
     available_schedules = {sid: sinfo for sid, sinfo in data["schedules"].items() if sinfo.get("is_available", True)}
@@ -361,6 +370,7 @@ def lihat_jadwal_tersedia(data):
 
 # --- Fungsi Buat Janji (untuk User) ---
 def buat_janji_user(data, current_username, patient_id):
+    # Fungsi ini dipanggil sekali, jadi data yang di-pass sudah cukup baru
     print("\n--- Buat Janji Saya ---")
 
     if not patient_id:
@@ -412,6 +422,7 @@ def buat_janji_user(data, current_username, patient_id):
 
 # --- Fungsi Lihat Janji Saya (untuk User) ---
 def lihat_janji_user(data, current_username, patient_id):
+    # Fungsi ini dipanggil sekali, jadi data yang di-pass sudah cukup baru
     print("\n--- Janji Saya ---")
 
     if not patient_id:
@@ -429,6 +440,8 @@ def lihat_janji_user(data, current_username, patient_id):
         doctor_info = data["doctors"].get(sinfo["doctor_id"], {"name": "Tidak Ditemukan"})
         dept_info = data["departments"].get(doctor_info["specialty_id"], {"name": "Tidak Ditemukan"})
         
+        status_color_appointment = Fore.GREEN if ainfo['status'] == "Completed" else (Fore.YELLOW if ainfo['status'] == "Scheduled" else H)
+
         # Cek status pembayaran
         payment_status = "Belum Bayar"
         for pid, pinfo in data["payments"].items():
@@ -439,12 +452,13 @@ def lihat_janji_user(data, current_username, patient_id):
         payment_color = H if payment_status == "Lunas" else Fore.YELLOW
         
         print(f"ID Janji: {aid}, Dokter: {doctor_info['name']}, Departemen: {dept_info['name']}")
-        print(f"  Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}")
-        print(f"  Status Janji: {H}{ainfo['status']}{R}, Status Bayar: {payment_color}{payment_status}{R}")
+        print(f"  Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}") # type: ignore
+        print(f"  Status Janji: {status_color_appointment}{ainfo['status']}{R}, Status Bayar: {payment_color}{payment_status}{R}")
         print()
 
 # --- Fungsi Lihat Riwayat Kesehatan Saya (untuk User) ---
 def lihat_riwayat_user(data, current_username, patient_id):
+    # Fungsi ini dipanggil sekali, jadi data yang di-pass sudah cukup baru
     print("\n--- Riwayat Kesehatan Saya ---")
 
     if not patient_id:

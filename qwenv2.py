@@ -22,9 +22,9 @@ from colorama import Fore
 def main():
     colorama.init(autoreset=True) # untuk mengaktifkan colorama dan autoreset=True memastikan bahwa warna teks akan otomatis kembali normal setelah setiap perintah print, sehingga tidak semua teks di terminal menjadi merah.
 
-    data = load_data()
-
     while True:
+        # Setiap kali kembali ke menu utama, data dimuat ulang untuk memastikan sesi baru (jika login ulang) mendapat data segar.
+        data = load_data()
         print("\n=== Aplikasi Reservasi Rumah Sakit ===")
         print("1. Login")
         print("2. Register (User Biasa)")
@@ -36,11 +36,11 @@ def main():
             if user_id: # Jika login berhasil (user_id tidak None)
                 clear_screen()
                 if role == 'admin':
-                    menu_admin(data)
+                    menu_admin() # Tidak perlu passing data lagi
                 elif role == 'staff':
-                    menu_staff(data)
+                    menu_staff() # Tidak perlu passing data lagi
                 elif role == 'user':
-                    menu_user(data, username, patient_id) # Teruskan patient_id
+                    menu_user(username, patient_id) # Tidak perlu passing data lagi
                 else:
                     print(Fore.RED + "Role tidak dikenali.")
             else:

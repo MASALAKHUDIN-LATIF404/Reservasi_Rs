@@ -6,8 +6,9 @@ from fungsi.core import *
 
 
 # --- Menu Admin ---
-def menu_admin(data):
+def menu_admin():
     while True:
+        data = load_data() # Muat data setiap kali menu utama admin ditampilkan
         print(f"\n--- {H}Menu Admin{R} ---\n")
         print("1. Manajemen User")
         print("2. Manajemen Departemen")
@@ -53,6 +54,7 @@ def menu_admin(data):
 # --- Fungsi Manajemen User (Admin) ---
 def manajemen_user(data):
     while True:
+        data = load_data() # Muat ulang data setiap kali menu manajemen user ditampilkan
         print(f"\n--- Manajemen User ({H}Admin{R}) ---") # f-string H & R untuk kode warna
         print("1. Lihat Semua User")
         print("2. Tambah User")
@@ -169,6 +171,7 @@ def manajemen_user(data):
 # --- Fungsi Manajemen Departemen (Admin) ---
 def manajemen_departemen(data):
     while True:
+        data = load_data() # Muat ulang data
         print(f"\n--- Manajemen Departemen ({H}Admin{R}) ---")
         print("1. Lihat Semua Departemen")
         print("2. Tambah Departemen")
@@ -273,6 +276,7 @@ def manajemen_departemen(data):
 # --- Fungsi Manajemen Dokter (Admin) ---
 def manajemen_dokter(data):
     while True:
+        data = load_data() # Muat ulang data
         print(f"\n--- Manajemen Dokter ({H}Admin{R}) ---")
         print("1. Lihat Semua Dokter")
         print("2. Tambah Dokter")
@@ -394,7 +398,7 @@ def manajemen_dokter(data):
             clear_screen()
         elif choice == '0':
             clear_screen()
-            menu_admin(data)
+            # Cukup break untuk kembali ke menu admin utama, yang akan memuat ulang data
             break
         else:
             print(Fore.RED + "Pilihan tidak valid.")
@@ -406,6 +410,7 @@ def manajemen_dokter(data):
 # --- Fungsi Manajemen Ruangan (Admin) ---
 def manajemen_ruangan(data):
     while True:
+        data = load_data() # Muat ulang data
         print(f"\n--- Manajemen Ruangan ({H}Admin{R}) ---")
         print("1. Lihat Semua Ruangan")
         print("2. Tambah Ruangan")
@@ -417,8 +422,10 @@ def manajemen_ruangan(data):
         if choice == '1':
             print(f"\n{H}Daftar Ruangan:{R}")
             for rid, rinfo in data["rooms"].items():
-                status = "Tersedia" if rinfo.get("is_available", True) else "Tidak Tersedia"
-                print(f"ID: {rid}, Nama: {rinfo['name']}, Tipe: {rinfo['type']}, Status: {status}")
+                is_available = rinfo.get("is_available", True)
+                status_text = "Tersedia" if is_available else "Tidak Tersedia"
+                status_color = Fore.GREEN if is_available else Fore.YELLOW
+                print(f"ID: {rid}, Nama: {rinfo['name']}, Tipe: {rinfo['type']}, Status: {status_color}{status_text}{R}")
         elif choice == '2':
             name = input("Nama Ruangan Baru: ").strip()
             if not name:
@@ -444,8 +451,10 @@ def manajemen_ruangan(data):
         elif choice == '3':
             print(f"\n{H}Daftar Ruangan:{R}")
             for rid, rinfo in data["rooms"].items():
-                status = "Tersedia" if rinfo.get("is_available", True) else "Tidak Tersedia"
-                print(f"ID: {rid}, Nama: {rinfo['name']}, Tipe: {rinfo['type']}, Status: {status}")
+                is_available = rinfo.get("is_available", True)
+                status_text = "Tersedia" if is_available else "Tidak Tersedia"
+                status_color = Fore.GREEN if is_available else Fore.YELLOW
+                print(f"ID: {rid}, Nama: {rinfo['name']}, Tipe: {rinfo['type']}, Status: {status_color}{status_text}{R}")
             room_id = input("ID Ruangan yang akan diedit: ").strip()
             if not room_id:
                 print(Fore.RED + "ID Ruangan tidak boleh kosong.")
@@ -470,8 +479,10 @@ def manajemen_ruangan(data):
         elif choice == '4':
             print(f"\n{H}Daftar Ruangan:{R}")
             for rid, rinfo in data["rooms"].items():
-                status = "Tersedia" if rinfo.get("is_available", True) else "Tidak Tersedia"
-                print(f"ID: {rid}, Nama: {rinfo['name']}, Tipe: {rinfo['type']}, Status: {status}")
+                is_available = rinfo.get("is_available", True)
+                status_text = "Tersedia" if is_available else "Tidak Tersedia"
+                status_color = Fore.GREEN if is_available else Fore.YELLOW
+                print(f"ID: {rid}, Nama: {rinfo['name']}, Tipe: {rinfo['type']}, Status: {status_color}{status_text}{R}")
             room_id = input("ID Ruangan yang akan dihapus: ")
             if room_id not in data["rooms"]:
                 print(Fore.RED + "ID Ruangan tidak ditemukan.")
@@ -524,6 +535,7 @@ def manajemen_ruangan(data):
 # --- Fungsi Laporan Sederhana (Admin) ---
 def laporan_sederhana(data):
     print(f"\n--- Laporan Sederhana ({H}Admin{R}) ---")
+    # Untuk laporan, cukup muat data sekali di awal fungsi ini karena tidak ada loop
     print("1. Laporan Janji Harian")
     print("2. Laporan Pasien per Departemen")
     print("3. Laporan Ruangan Tersedia")

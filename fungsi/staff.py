@@ -5,11 +5,17 @@ from fungsi.color import *
 from fungsi.core import *
 
 
+H = "\033[92m" # warna hijau
+M = "\033[91m" # warna merah
+R = "\033[0m" # reset warna
+
+
 
 
 # --- Menu Staff ---
-def menu_staff(data):
+def menu_staff():
     while True:
+        data = load_data() # Muat data setiap kali menu utama staff ditampilkan
         print(f"\n--- {H}Menu Staff{R} ---")
         print("1. Data Pasien")
         print("2. Data Jadwal") 
@@ -59,6 +65,7 @@ def menu_staff(data):
 # --- Fungsi Data Pasien (Staff) ---
 def data_pasien(data):
     while True:
+        data = load_data() # Muat ulang data
         print(f"\n--- Data Pasien ({H}Staff{R}) ---")
         print("1. Lihat Semua Pasien")
         print("2. Tambah Pasien Baru")
@@ -73,7 +80,7 @@ def data_pasien(data):
                 time.sleep(3)
                 clear_screen()
             else:
-                print(f"\n{H}Daftar Pasien:{R}")
+                print(Fore.YELLOW + "Daftar Pasien:")
                 for pid, pinfo in data["patients"].items():
                     print(f"ID: {pid}, Nama: {pinfo['name']}, Telp: {pinfo['phone']}, Alamat: {pinfo['address']}, Tanggal Lahir: {pinfo['birth_date']}")
         elif choice == '2':
@@ -81,7 +88,9 @@ def data_pasien(data):
             phone = input("Nomor Telepon: ")
             address = input("Alamat: ")
             birth_date = input("Tanggal Lahir (YYYY-MM-DD): ")
-            patient_id = str(len(data["patients"]) + 1)
+            # Menggunakan metode pembuatan ID yang lebih aman
+            max_id = max([int(k) for k in data["patients"].keys()] or [0])
+            patient_id = str(max_id + 1)
             data["patients"][patient_id] = {
                 "name": name,
                 "phone": phone,
@@ -189,6 +198,7 @@ def data_pasien(data):
 # --- Fungsi Data Jadwal (Staff) ---
 def data_jadwal(data):
     while True:
+        data = load_data() # Muat ulang data
         print(f"\n--- Data Jadwal ({H}Staff{R}) ---")
         print("1. Lihat Semua Jadwal")
         print("2. Tambah Jadwal Baru")
@@ -207,8 +217,10 @@ def data_jadwal(data):
                 for sid, sinfo in data["schedules"].items():
                     doctor_info = data["doctors"].get(sinfo["doctor_id"], {"name": "Tidak Ditemukan"})
                     dept_info = data["departments"].get(data["doctors"].get(sinfo["doctor_id"], {}).get("specialty_id"), {"name": "Tidak Ditemukan"})["name"]
-                    status = "Tersedia" if sinfo.get("is_available", True) else "Tidak Tersedia"
-                    print(f"ID: {sid}, Dokter: {doctor_info['name']}, Departemen: {dept_info}, Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}, Status: {H}{status}{R}")
+                    is_available = sinfo.get("is_available", True)
+                    status_text = "Tersedia" if is_available else "Tidak Tersedia"
+                    status_color = Fore.GREEN if is_available else Fore.YELLOW
+                    print(f"ID: {sid}, Dokter: {doctor_info['name']}, Departemen: {dept_info}, Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}, Status: {status_color}{status_text}{R}")
         elif choice == '2':
             print(f"\n{H}Daftar Dokter:{R}")
             for doc_id, doc_info in data["doctors"].items():
@@ -236,8 +248,10 @@ def data_jadwal(data):
             for sid, sinfo in data["schedules"].items():
                 doctor_info = data["doctors"].get(sinfo["doctor_id"], {"name": "Tidak Ditemukan"})
                 dept_info = data["departments"].get(data["doctors"].get(sinfo["doctor_id"], {}).get("specialty_id"), {"name": "Tidak Ditemukan"})["name"]
-                status = "Tersedia" if sinfo.get("is_available", True) else "Tidak Tersedia"
-                print(f"ID: {sid}, Dokter: {doctor_info['name']}, Departemen: {dept_info}, Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}, Status: {H}{status}{R}")
+                is_available = sinfo.get("is_available", True)
+                status_text = "Tersedia" if is_available else "Tidak Tersedia"
+                status_color = Fore.GREEN if is_available else Fore.YELLOW
+                print(f"ID: {sid}, Dokter: {doctor_info['name']}, Departemen: {dept_info}, Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}, Status: {status_color}{status_text}{R}")
             schedule_id = input("Masukkan ID Jadwal yang akan diedit: ")
             if schedule_id in data["schedules"]:
                 sinfo = data["schedules"][schedule_id]
@@ -272,8 +286,10 @@ def data_jadwal(data):
             for sid, sinfo in data["schedules"].items():
                 doctor_info = data["doctors"].get(sinfo["doctor_id"], {"name": "Tidak Ditemukan"})
                 dept_info = data["departments"].get(data["doctors"].get(sinfo["doctor_id"], {}).get("specialty_id"), {"name": "Tidak Ditemukan"})["name"]
-                status = "Tersedia" if sinfo.get("is_available", True) else "Tidak Tersedia"
-                print(f"ID: {sid}, Dokter: {doctor_info['name']}, Departemen: {dept_info}, Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}, Status: {H}{status}{R}")
+                is_available = sinfo.get("is_available", True)
+                status_text = "Tersedia" if is_available else "Tidak Tersedia"
+                status_color = Fore.GREEN if is_available else Fore.YELLOW
+                print(f"ID: {sid}, Dokter: {doctor_info['name']}, Departemen: {dept_info}, Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}, Status: {status_color}{status_text}{R}")
             schedule_id = input("Masukkan ID Jadwal yang akan dihapus: ")
             if schedule_id in data["schedules"]:
                 sinfo = data["schedules"][schedule_id]
@@ -320,6 +336,7 @@ def data_jadwal(data):
 # --- Fungsi Buat Janji (Staff) ---
 def buat_janji(data):
     print(f"\n--- Buat Janji Baru ({H}Staff{R}) ---")
+    # Tidak perlu loop, jadi data yang di-pass dari menu_staff sudah cukup baru
     
     print(f"{H}Daftar Pasien:{R}")
     for pid, pinfo in data["patients"].items():
@@ -375,6 +392,7 @@ def buat_janji(data):
 # --- Fungsi Data Janji (Staff) ---
 def data_janji(data):
     while True:
+        data = load_data() # Muat ulang data
         print(f"\n--- Data Janji ({H}Staff{R}) ---")
         print("1. Lihat Semua Janji")
         print("2. Hapus Janji")
@@ -390,8 +408,11 @@ def data_janji(data):
                     pinfo = data["patients"].get(ainfo["patient_id"], {"name": "Tidak Ditemukan"})
                     sinfo = data["schedules"].get(ainfo["schedule_id"], {"doctor_id": "Tidak Ditemukan"})
                     doctor_info = data["doctors"].get(sinfo["doctor_id"], {"name": "Tidak Ditemukan"})
-                    dept_info = data["departments"].get(data["doctors"].get(sinfo["doctor_id"], {}).get("specialty_id"), {"name": "Tidak Ditemukan"})["name"]
-                    print(f"ID: {aid}, Pasien: {pinfo['name']}, Dokter: {doctor_info['name']}, Departemen: {dept_info}, Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}, Status: {H}{ainfo['status']}{R}")
+                    dept_info = data["departments"].get(data["doctors"].get(sinfo["doctor_id"], {}).get("specialty_id"), {"name": "Tidak Ditemukan"})["name"] # type: ignore
+                    
+                    status_color = Fore.GREEN if ainfo['status'] == "Completed" else (Fore.YELLOW if ainfo['status'] == "Scheduled" else H)
+                    
+                    print(f"ID: {aid}, Pasien: {pinfo['name']}, Dokter: {doctor_info['name']}, Departemen: {dept_info}, Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}, Status: {status_color}{ainfo['status']}{R}")
         elif choice == '2':
             if not data["appointments"]:
                 print(Fore.YELLOW + "Belum ada data janji untuk dihapus.")
@@ -402,8 +423,11 @@ def data_janji(data):
                 pinfo = data["patients"].get(ainfo["patient_id"], {"name": "Tidak Ditemukan"})
                 sinfo = data["schedules"].get(ainfo["schedule_id"], {"doctor_id": "Tidak Ditemukan"})
                 doctor_info = data["doctors"].get(sinfo["doctor_id"], {"name": "Tidak Ditemukan"})
-                dept_info = data["departments"].get(data["doctors"].get(sinfo["doctor_id"], {}).get("specialty_id"), {"name": "Tidak Ditemukan"})["name"]
-                print(f"ID: {aid}, Pasien: {pinfo['name']}, Dokter: {doctor_info['name']}, Departemen: {dept_info}, Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}, Status: {H}{ainfo['status']}{R}")
+                dept_info = data["departments"].get(data["doctors"].get(sinfo["doctor_id"], {}).get("specialty_id"), {"name": "Tidak Ditemukan"})["name"] # type: ignore
+                
+                status_color = Fore.GREEN if ainfo['status'] == "Completed" else (Fore.YELLOW if ainfo['status'] == "Scheduled" else H)
+                
+                print(f"ID: {aid}, Pasien: {pinfo['name']}, Dokter: {doctor_info['name']}, Departemen: {dept_info}, Tanggal: {sinfo['available_date']}, Waktu: {sinfo['available_time']}, Status: {status_color}{ainfo['status']}{R}")
             appointment_id = input("Masukkan ID Janji yang akan dihapus: ")
             if appointment_id in data["appointments"]:
                 # Ambil schedule_id sebelum menghapus janji
@@ -440,7 +464,8 @@ def data_janji(data):
 # --- Fungsi Data CheckUp (Staff) ---
 def data_checkup(data):
     while True:
-        print(f"\n--- Input Data Pemeriksaan (CheckUp) ({H}Staff{R}) ---")
+        data = load_data() # Muat ulang data
+        print(f"\n--- Input Data Pemeriksaan ({H}CheckUp{R}) ({H}Staff{R}) ---")
         print("1. Tambah/Edit Data Pemeriksaan")
         print("2. Lihat Semua Data Pemeriksaan") 
         print("3. Data Pembayaran")
@@ -454,10 +479,12 @@ def data_checkup(data):
                 print(Fore.YELLOW + "Tidak ada janji yang tersedia untuk diisi hasil pemeriksaannya.")
             else:
                 for aid, ainfo in eligible_apps.items():
+                    status_color = H if ainfo['status'] == "Completed" else Fore.YELLOW
                     pinfo = data["patients"].get(ainfo["patient_id"], {"name": "Tidak Ditemukan"})
                     sinfo = data["schedules"].get(ainfo["schedule_id"], {"doctor_id": "Tidak Ditemukan"})
                     doctor_info = data["doctors"].get(sinfo["doctor_id"], {"name": "Tidak Ditemukan"})
-                    print(f"ID Janji: {aid}, Pasien: {H}{pinfo['name']}{R}, Dokter: {doctor_info['name']}, Tanggal: {sinfo['available_date']}, Status: {H}{ainfo['status']}{R}")
+                    tanggal_janji = sinfo.get('available_date', 'N/A')
+                    print(f"ID Janji: {aid}, Pasien: {H}{pinfo['name']}{R}, Dokter: {doctor_info['name']}, Tanggal: {tanggal_janji}, Status: {status_color}{ainfo['status']}{R}")
             
             app_id = input("\nMasukkan ID Janji untuk diisi pemeriksaannya: ")
             if app_id not in eligible_apps:
@@ -568,6 +595,7 @@ def data_checkup(data):
 # --- Fungsi Menu Pembayaran ---
 def menu_pembayaran(data):
     while True:
+        data = load_data() # Muat ulang data
         print(f"\n--- {H}Menu Data Pembayaran{R} ---")
         print("1. Lihat Semua Data Pembayaran")
         print("2. Proses Pembayaran")
@@ -721,6 +749,8 @@ def menu_pembayaran(data):
                 print(f"{H}[🗸] Penghapusan dibatalkan.{R}")
 
         elif choice == '0':
+            time.sleep(2)
+            clear_screen()
             break
         else:
             print(Fore.RED + "Pilihan tidak valid.")
@@ -730,7 +760,8 @@ def menu_pembayaran(data):
 # --- Fungsi Data Rawat Inap (Staff) ---
 def data_rawat_inap(data):
     while True:
-        print("\n--- Data Rawat Inap (Staff) ---")
+        data = load_data() # Muat ulang data
+        print(f"\n--- Data Rawat Inap ({H}Staff{R}) ---")
         print("1. Lihat Semua Rawat Inap")
         print("2. Tambah Rawat Inap Baru")
         print("3. Edit Rawat Inap (Status Keluar)")
@@ -740,23 +771,25 @@ def data_rawat_inap(data):
 
         if choice == '1':
             if not data["admissions"]:
-                print("\nBelum ada data rawat inap.")
+                print(Fore.YELLOW + "\nBelum ada data rawat inap.")
             else:
-                print("\nDaftar Rawat Inap:")
+                print(f"\n{H}Daftar Rawat Inap:{R}")
                 for adid, adinfo in data["admissions"].items():
                     pinfo = data["patients"].get(adinfo["patient_id"], {"name": "Tidak Ditemukan"})
                     rinfo = data["rooms"].get(adinfo["room_id"], {"name": "Tidak Ditemukan"})
                     print(f"ID Rawat Inap: {adid}, Pasien: {pinfo['name']}, Ruangan: {rinfo['name']}, Masuk: {adinfo['admission_date']}, Estimasi Keluar: {adinfo['discharge_date']}, Status: {H}{adinfo['status']}{R}")
         elif choice == '2':
-            print("\nDaftar Pasien:")
+            print(f"\n{H}Daftar Pasien:{R}")
             for pid, pinfo in data["patients"].items():
                 print(f"ID: {pid}, Nama: {pinfo['name']}")
             patient_id = input("Masukkan ID Pasien: ")
             if patient_id not in data["patients"]:
                 print(Fore.RED + "ID Pasien tidak ditemukan.")
+                time.sleep(3)
+                clear_screen()
                 return
 
-            print("\nDaftar Janji (Hanya Janji yang Berstatus 'Completed' yang bisa dijadikan dasar rawat inap):")
+            print(Fore.RED + "\nDaftar Janji (Hanya Janji yang Berstatus 'Completed' yang bisa dijadikan dasar rawat inap):")
             completed_apps = {aid: ainfo for aid, ainfo in data["appointments"].items() if ainfo["status"] == "Completed" and ainfo["patient_id"] == patient_id}
             if not completed_apps:
                 print(Fore.YELLOW + "Pasien ini belum memiliki janji yang selesai (Completed).")
@@ -770,7 +803,7 @@ def data_rawat_inap(data):
                 print(Fore.RED + "ID Janji tidak ditemukan atau bukan milik pasien ini atau belum selesai.")
                 return
 
-            print("\nDaftar Ruangan Tersedia:")
+            print(f"\n{H}Daftar Ruangan Tersedia:{R}")
             available_rooms = {rid: rinfo for rid, rinfo in data["rooms"].items() if rinfo.get("is_available", True)}
             if not available_rooms:
                 print("Tidak ada ruangan yang tersedia saat ini.")
@@ -791,14 +824,19 @@ def data_rawat_inap(data):
                 "room_id": room_id,
                 "admission_date": admission_date,
                 "discharge_date": discharge_date,
-                "status": "Admitted" # Status awal
+                "status": "Admitted to the hospital" # Status awal
             }
             # Ubah status ruangan menjadi tidak tersedia
             data["rooms"][room_id]["is_available"] = False
             save_data(data)
-            print("Data rawat inap berhasil ditambahkan.")
+            print(f"{H}[🗸] Data rawat inap berhasil ditambahkan.{R}")
 
         elif choice == '3':
+            print(f"\n{H}Daftar Rawat Inap:{R}")
+            for adid, adinfo in data["admissions"].items():
+                pinfo = data["patients"].get(adinfo["patient_id"], {"name": "Tidak Ditemukan"})
+                rinfo = data["rooms"].get(adinfo["room_id"], {"name": "Tidak Ditemukan"})
+                print(f"ID Rawat Inap: {adid}, Pasien: {pinfo['name']}, Ruangan: {rinfo['name']}, Masuk: {adinfo['admission_date']}, Estimasi Keluar: {adinfo['discharge_date']}, Status: {H}{adinfo['status']}{R}")
             admission_id = input("Masukkan ID Rawat Inap untuk diubah statusnya (keluar): ")
             if admission_id in data["admissions"]:
                 adinfo = data["admissions"][admission_id]
@@ -819,8 +857,13 @@ def data_rawat_inap(data):
             else:
                 print(Fore.RED + "ID Rawat Inap tidak ditemukan.")
         elif choice == '4':
-             admission_id = input("Masukkan ID Rawat Inap yang akan dihapus: ")
-             if admission_id in data["admissions"]:
+            print(f"\n{H}Daftar Rawat Inap:{R}")
+            for adid, adinfo in data["admissions"].items():
+                pinfo = data["patients"].get(adinfo["patient_id"], {"name": "Tidak Ditemukan"})
+                rinfo = data["rooms"].get(adinfo["room_id"], {"name": "Tidak Ditemukan"})
+                print(f"ID Rawat Inap: {adid}, Pasien: {pinfo['name']}, Ruangan: {rinfo['name']}, Masuk: {adinfo['admission_date']}, Estimasi Keluar: {adinfo['discharge_date']}, Status: {H}{adinfo['status']}{R}")
+            admission_id = input("Masukkan ID Rawat Inap yang akan dihapus: ")
+            if admission_id in data["admissions"]:
                  adinfo = data["admissions"][admission_id]
                  # Kembalikan status ruangan jika rawat inap belum selesai
                  if adinfo["status"] != "Discharged":
@@ -828,9 +871,11 @@ def data_rawat_inap(data):
                  del data["admissions"][admission_id]
                  save_data(data)
                  print("Data rawat inap berhasil dihapus.")
-             else:
+            else:
                 print(Fore.RED + "ID Rawat Inap tidak ditemukan.")
         elif choice == '0':
+            time.sleep(2)
+            clear_screen()
             break
         else:
             print(Fore.RED + "Pilihan tidak valid.")
