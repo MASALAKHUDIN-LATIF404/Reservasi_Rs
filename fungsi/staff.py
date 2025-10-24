@@ -710,17 +710,34 @@ def menu_pembayaran(data):
             print(f"Metode: {payment_info.get('payment_method', '-')}")
             print(f"Layanan: {payment_info['service_type']}")
             
+            print(f"\n{H}--- Edit Data ---{R} (Tekan Enter untuk melewati)")
             new_amount = input(f"Jumlah Baru (sekarang: {payment_info['amount']}): ") or payment_info['amount']
             new_service = input(f"Layanan Baru (sekarang: {payment_info['service_type']}): ") or payment_info['service_type']
+            new_method = input(f"Metode Baru (sekarang: {payment_info.get('payment_method', '-')}) : ") or payment_info.get('payment_method', '')
+            
+            print(f"Status Baru (sekarang: {payment_info['status']}):")
+            print("1. Paid")
+            print("2. Pending")
+            status_choice = input("Pilih status baru (1-2, Enter untuk tidak mengubah): ")
+            
+            new_status = payment_info['status'] # Default ke status lama
+            if status_choice == '1':
+                new_status = "Paid"
+            elif status_choice == '2':
+                new_status = "Pending"
             
             try:
                 new_amount = int(new_amount)
             except ValueError:
                 print(Fore.RED + "Jumlah harus angka.")
                 continue
-                
+            
+            # Update data pembayaran
             data["payments"][payment_id]["amount"] = new_amount
             data["payments"][payment_id]["service_type"] = new_service
+            data["payments"][payment_id]["payment_method"] = new_method
+            data["payments"][payment_id]["status"] = new_status
+            
             save_data(data)
             print(f"{H}[🗸] Data pembayaran berhasil diupdate.{R}")
 

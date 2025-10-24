@@ -233,10 +233,13 @@ def bayar_tagihan_user(data, current_username, patient_id):
     
     if method_choice == '1':
         payment_method = "Transfer Bank"
+        # Membuat Virtual Account otomatis berdasarkan ID Pembayaran
+        bank_code = "8808" # Kode unik untuk rumah sakit (contoh)
+        virtual_account = f"{bank_code}{payment_id.zfill(8)}"
         print("\nSilakan transfer ke:")
         print("Bank: BCA")
-        print("No. Rekening: 123-456-7890")
-        print("a.n: Rumah Sakit Sehat Sentosa")
+        print(f"No. Virtual Account: {H}{virtual_account}{R}")
+        print("Atas Nama: Rumah Sakit Sehat Sentosa")
         print(f"Jumlah: Rp {payment_info['amount']:,}")
         input("\nTekan Enter setelah transfer...")
         
@@ -244,27 +247,37 @@ def bayar_tagihan_user(data, current_username, patient_id):
         payment_method = "Kartu Kredit/Debit"
         card_number = input("Masukkan nomor kartu: ")
         expiry_date = input("Masukkan tanggal kadaluarsa (MM/YY): ")
-        cvv = input("Masukkan CVV: ")
+        cvv = input("Masukkan CVV (Card Verification Value): ")
         print("Verifikasi pembayaran...")
         time.sleep(2)
         
     elif method_choice == '3':
         payment_method = "E-Wallet"
-        print("Pilih E-Wallet:")
+        print("\nPilih E-Wallet:")
         print("1. Gopay")
         print("2. OVO")
         print("3. Dana")
         print("4. LinkAja")
         ewallet_choice = input("Pilih (1-4): ")
+        
         ewallet_options = {
-            "1": "Gopay",
-            "2": "OVO", 
-            "3": "Dana",
-            "4": "LinkAja"
+            "1": {"name": "Gopay", "prefix": "99001"},
+            "2": {"name": "OVO", "prefix": "99002"},
+            "3": {"name": "Dana", "prefix": "99003"},
+            "4": {"name": "LinkAja", "prefix": "99004"}
         }
-        payment_method = f"E-Wallet ({ewallet_options.get(ewallet_choice, 'Gopay')})"
-        print(f"Silakan bayar menggunakan {payment_method}")
-        input("Tekan Enter setelah pembayaran...")
+        
+        selected_ewallet = ewallet_options.get(ewallet_choice)
+        
+        if selected_ewallet:
+            payment_method = f"E-Wallet ({selected_ewallet['name']})"
+            payment_code = f"{selected_ewallet['prefix']}{payment_id.zfill(8)}"
+            print(f"\nSilakan bayar menggunakan {selected_ewallet['name']} ke nomor berikut:")
+            print(f"Kode Pembayaran: {H}{payment_code}{R}")
+            input("\nTekan Enter setelah pembayaran...")
+        else:
+            print(Fore.RED + "Pilihan E-Wallet tidak valid. Pembayaran dibatalkan.")
+            return
         
     elif method_choice == '4':
         payment_method = "Cash"

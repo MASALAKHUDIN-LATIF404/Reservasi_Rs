@@ -172,11 +172,11 @@
         "2": {
             "appointment_id": "2",
             "patient_id": "2",
-            "amount": 3500000,
-            "payment_date": "2025-10-24 15:55:33",
+            "amount": 4526000,
+            "payment_date": "2025-10-24 17:01:09",
             "status": "Paid",
-            "payment_method": "Cash",
-            "service_type": "Isolasi Corona"
+            "payment_method": "E-Wallet (LinkAja)",
+            "service_type": "Peyembuhan dan Isolasi Corona"
         }
     }
 }
