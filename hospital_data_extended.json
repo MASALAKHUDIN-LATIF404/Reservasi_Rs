@@ -5,22 +5,22 @@
             "password": "adminpass",
             "role": "admin"
         },
-        "staff": {
-            "id": "2",
-            "password": "staffpass",
-            "role": "staff"
-        },
         "hendra": {
-            "id": "3",
+            "id": "2",
             "password": "admin",
             "role": "user",
             "patient_id": "1"
         },
         "putri": {
-            "id": "4",
+            "id": "3",
             "password": "putri123",
             "role": "user",
             "patient_id": "2"
+        },
+        "staff": {
+            "id": "4",
+            "password": "staffpass",
+            "role": "staff"
         }
     },
     "departments": {
@@ -61,6 +61,11 @@
             "name": "Dr. Budi",
             "specialty_id": "3",
             "phone": "081234567892"
+        },
+        "4": {
+            "name": "Dr. Andri",
+            "specialty_id": "7",
+            "phone": "0897-8789-3365"
         }
     },
     "rooms": {
@@ -99,6 +104,27 @@
             "address": "Beringin Kencana",
             "birth_date": "2004-05-15",
             "created_at": "2025-10-24 14:30:07"
+        },
+        "3": {
+            "name": "asu",
+            "phone": "08277",
+            "address": "sfkhhkbc",
+            "birth_date": "3983-83-93",
+            "created_at": "2025-10-24 22:24:44"
+        },
+        "4": {
+            "name": "hhfbh",
+            "phone": "83828",
+            "address": "hfdv",
+            "birth_date": "3838-33-33",
+            "created_at": "2025-10-24 22:25:13"
+        },
+        "5": {
+            "name": "new",
+            "phone": "087676",
+            "address": "hgyff",
+            "birth_date": "7699-86-78",
+            "created_at": "2025-10-24 22:45:41"
         }
     },
     "schedules": {
@@ -106,7 +132,7 @@
             "doctor_id": "1",
             "available_date": "2025-10-25",
             "available_time": "08:00 - 13:00",
-            "is_available": true
+            "is_available": false
         },
         "2": {
             "doctor_id": "3",
@@ -119,34 +145,46 @@
             "available_date": "2025-10-29",
             "available_time": "13:00 - 19:00",
             "is_available": false
+        },
+        "4": {
+            "doctor_id": "3",
+            "available_date": "2025-10-30",
+            "available_time": "08:00 - 12:00",
+            "is_available": false
+        },
+        "5": {
+            "doctor_id": "1",
+            "available_date": "8777-38-84",
+            "available_time": "83:88 - 99:67",
+            "is_available": false
+        },
+        "6": {
+            "doctor_id": "1",
+            "available_date": "8747-94-94",
+            "available_time": "08:98 - 93:38",
+            "is_available": true
         }
     },
     "appointments": {
-        "1": {
-            "patient_id": "1",
-            "schedule_id": "3",
-            "booking_date": "2025-10-23 23:48:32",
-            "status": "Completed"
+        "3": {
+            "patient_id": "5",
+            "schedule_id": "4",
+            "booking_date": "2025-10-25 00:08:42",
+            "status": "Scheduled"
         },
         "2": {
-            "patient_id": "2",
-            "schedule_id": "2",
-            "booking_date": "2025-10-24 14:31:51",
+            "patient_id": "3",
+            "schedule_id": "5",
+            "booking_date": "2025-10-24 22:28:02",
             "status": "Completed"
         }
     },
     "checkups": {
         "1": {
-            "appointment_id": "1",
-            "checkup_date": "2025-10-23 23:53:00",
-            "diagnosis": "flu",
-            "notes": "tidur"
-        },
-        "2": {
             "appointment_id": "2",
-            "checkup_date": "2025-10-24 16:02:13",
-            "diagnosis": "corona",
-            "notes": "perlu rawat inap"
+            "checkup_date": "2025-10-24 22:32:29",
+            "diagnosis": "asu pilek",
+            "notes": "asu turu"
         }
     },
     "admissions": {
@@ -177,6 +215,33 @@
             "status": "Paid",
             "payment_method": "E-Wallet (LinkAja)",
             "service_type": "Peyembuhan dan Isolasi Corona"
+        },
+        "3": {
+            "appointment_id": "3",
+            "patient_id": "2",
+            "amount": 150000,
+            "payment_date": "",
+            "status": "Pending",
+            "payment_method": "",
+            "service_type": "Konsultasi Umum"
+        },
+        "4": {
+            "appointment_id": "3",
+            "patient_id": "5",
+            "amount": 150000,
+            "payment_date": "",
+            "status": "Pending",
+            "payment_method": "",
+            "service_type": "Konsultasi Umum"
+        },
+        "5": {
+            "appointment_id": "3",
+            "patient_id": "5",
+            "amount": 150000,
+            "payment_date": "",
+            "status": "Pending",
+            "payment_method": "",
+            "service_type": "Konsultasi Umum"
         }
     }
 }

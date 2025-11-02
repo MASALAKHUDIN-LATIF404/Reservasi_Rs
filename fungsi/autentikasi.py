@@ -5,7 +5,7 @@ from fungsi.core import *
 from colorama import Fore
 from fungsi.color import *
 
-# --- Fungsi Login ---
+#Fungsi Login
 def login(data):
     while True:
         print("\n--- Login ---")
@@ -22,7 +22,7 @@ def login(data):
             # Kembalikan None jika login gagal
             return None, None, None, None
 
-# --- Fungsi Register (Hanya untuk user biasa, role 'user') ---
+#Fungsi Register (Hanya untuk user biasa, role 'user')
 def register(data):
     print("\n--- Register ---")
     username = input("Masukkan username baru: ")

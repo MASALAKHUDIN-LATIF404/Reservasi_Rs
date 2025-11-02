@@ -18,9 +18,9 @@ from colorama import Fore
 
 
 
-# --- Fungsi Utama (Main Menu) ---
+#Fungsi Utama (Main Menu)
 def main():
-    colorama.init(autoreset=True) # untuk mengaktifkan colorama dan autoreset=True memastikan bahwa warna teks akan otomatis kembali normal setelah setiap perintah print, sehingga tidak semua teks di terminal menjadi merah.
+    colorama.init(autoreset=True) # untuk mengaktifkan colorama dan memastikan bahwa warna teks akan otomatis kembali normal setelah setiap perintah print, sehingga tidak semua teks di terminal menjadi merah.
 
     while True:
         # Setiap kali kembali ke menu utama, data dimuat ulang untuk memastikan sesi baru (jika login ulang) mendapat data segar.
@@ -36,11 +36,11 @@ def main():
             if user_id: # Jika login berhasil (user_id tidak None)
                 clear_screen()
                 if role == 'admin':
-                    menu_admin() # Tidak perlu passing data lagi
+                    menu_admin() # Tidak perlu mengoper data lagi
                 elif role == 'staff':
-                    menu_staff() # Tidak perlu passing data lagi
+                    menu_staff() # Tidak perlu mengoper data lagi
                 elif role == 'user':
-                    menu_user(username, patient_id) # Tidak perlu passing data lagi
+                    menu_user(username, patient_id) # Tidak perlu mengoper data lagi
                 else:
                     print(Fore.RED + "Role tidak dikenali.")
             else:

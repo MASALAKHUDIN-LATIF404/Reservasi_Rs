@@ -418,20 +418,52 @@ def buat_janji_user(data, current_username, patient_id):
     data["schedules"][schedule_id]["is_available"] = False
     
     # Otomatis buat data pembayaran untuk janji baru
+    # --- Otomatis buat data pembayaran untuk janji baru dengan pilihan layanan ---
+    print(f"\n{H}--- Pilih Jenis Layanan ---{R}")
+    print("1. Konsultasi Umum (Rp 150.000)")
+    print("2. Konsultasi Spesialis (Rp 250.000)")
+    print("3. Lainnya (Input Manual)")
+    
+    service_choice = input("Pilih jenis layanan (1-3): ")
+    amount = 0
+    service_type = ""
+
+    if service_choice == '1':
+        amount = 150000
+        service_type = "Konsultasi Umum"
+    elif service_choice == '2':
+        # Cek apakah dokter yang dipilih adalah spesialis
+        schedule_info = data["schedules"][schedule_id]
+        doctor_info = data["doctors"][schedule_info["doctor_id"]]
+        department_info = data["departments"][doctor_info["specialty_id"]]
+        
+        # Asumsikan 'Poliklinik Umum' bukan spesialis
+        if "Umum" in department_info["name"]:
+            print(Fore.YELLOW + "Dokter yang dipilih bukan spesialis. Menggunakan layanan Konsultasi Umum.")
+            amount = 150000
+            service_type = "Konsultasi Umum"
+        else:
+            amount = 250000
+            service_type = "Konsultasi Spesialis"
+    else:
+        print(Fore.YELLOW + "Pilihan tidak valid. Menggunakan default Konsultasi Umum.")
+        amount = 150000
+        service_type = "Konsultasi Umum"
+
     payment_id = str(len(data["payments"]) + 1)
     data["payments"][payment_id] = {
         "appointment_id": appointment_id,
         "patient_id": patient_id,
-        "amount": 150000,  # Biaya default konsultasi
+        "amount": amount,
         "payment_date": "",
         "status": "Pending",
         "payment_method": "",
-        "service_type": "Konsultasi Umum"
+        "service_type": service_type
     }
     
     save_data(data)
     print(f"{H}[🗸] Janji berhasil dibuat untuk Anda!{R}")
-    print(f"{H}Tagihan sebesar Rp 150.000 telah dibuat. Silakan cek menu Pembayaran.{R}")
+    print(f"{H}Tagihan untuk '{service_type}' sebesar Rp {amount:,} telah dibuat. Silakan cek menu Pembayaran.{R}")
 
 # --- Fungsi Lihat Janji Saya (untuk User) ---
 def lihat_janji_user(data, current_username, patient_id):
