@@ -5,243 +5,136 @@
             "password": "adminpass",
             "role": "admin"
         },
-        "hendra": {
-            "id": "2",
-            "password": "admin",
-            "role": "user",
-            "patient_id": "1"
-        },
-        "putri": {
-            "id": "3",
-            "password": "putri123",
-            "role": "user",
-            "patient_id": "2"
-        },
         "staff": {
-            "id": "4",
+            "id": "2",
             "password": "staffpass",
             "role": "staff"
+        },
+        "susanti": {
+            "id": "3",
+            "password": "susanti123",
+            "role": "user",
+            "id_pasien": "1"
         }
     },
-    "departments": {
+    "departemen": {
         "1": {
-            "name": "Penyakit Dalam ( Non Operasi )"
+            "nama": "Penyakit Dalam"
         },
         "2": {
-            "name": "Bedah"
+            "nama": "Bedah"
         },
         "3": {
-            "name": "Anak"
+            "nama": "Anak"
         },
         "4": {
-            "name": "Kebidanan"
-        },
-        "5": {
-            "name": "Poliklinik Umum"
-        },
-        "6": {
-            "name": "Gigi dan Mulut"
-        },
-        "7": {
-            "name": "Syaraf"
+            "nama": "Kandungan"
         }
     },
-    "doctors": {
+    "dokter": {
         "1": {
-            "name": "Dr. Ahmad",
-            "specialty_id": "1",
-            "phone": "081234567890"
+            "nama": "Dr. Ahmad",
+            "id_spesialis": "1",
+            "telepon": "081234567890"
         },
         "2": {
-            "name": "Dr. Siti",
-            "specialty_id": "2",
-            "phone": "081234567891"
+            "nama": "Dr. Siti",
+            "id_spesialis": "2",
+            "telepon": "081234567891"
         },
         "3": {
-            "name": "Dr. Budi",
-            "specialty_id": "3",
-            "phone": "081234567892"
-        },
-        "4": {
-            "name": "Dr. Andri",
-            "specialty_id": "7",
-            "phone": "0897-8789-3365"
+            "nama": "Dr. Budi",
+            "id_spesialis": "3",
+            "telepon": "081234567892"
         }
     },
-    "rooms": {
+    "kamar": {
         "1": {
-            "name": "Melati 101",
-            "type": "VIP",
-            "is_available": false
+            "nama": "Melati 101",
+            "tipe": "VIP",
+            "tersedia": false
         },
         "2": {
-            "name": "Anggrek 202",
-            "type": "Kelas 1",
-            "is_available": true
+            "nama": "Anggrek 202",
+            "tipe": "Kelas 1",
+            "tersedia": true
         },
         "3": {
-            "name": "Mawar 303",
-            "type": "Kelas 2",
-            "is_available": false
-        },
-        "4": {
-            "name": "MAM 401",
-            "type": "VIP",
-            "is_available": true
+            "nama": "Mawar 303",
+            "tipe": "Kelas 2",
+            "tersedia": true
         }
     },
-    "patients": {
+    "pasien": {
         "1": {
-            "name": "Hendra Kustiawan",
-            "phone": "089865",
-            "address": "fghklkl",
-            "birth_date": "6758-76-79",
-            "created_at": "2025-10-23 23:44:50"
+            "nama": "susanti",
+            "telepon": "081248758974898",
+            "alamat": "bantul",
+            "tanggal_lahir": "2000-05-15",
+            "dibuat_pada": "2025-12-27 14:06:15"
+        }
+    },
+    "jadwal": {
+        "1": {
+            "id_dokter": "2",
+            "tanggal_tersedia": "2025-12-28",
+            "waktu_tersedia": "08:00 - 16:00",
+            "tersedia": false
+        }
+    },
+    "janji_temu": {
+        "1": {
+            "id_pasien": "1",
+            "id_jadwal": "1",
+            "tanggal_pemesanan": "2025-12-27 14:10:50",
+            "status": "Selesai"
+        }
+    },
+    "pemeriksaan": {
+        "1": {
+            "id_janji_temu": "1",
+            "tanggal_pemeriksaan": "2025-12-27 14:15:56",
+            "diagnosis": "flu burung",
+            "catatan": "rawat inap"
+        }
+    },
+    "rawat_inap": {
+        "1": {
+            "id_pasien": "1",
+            "id_janji_temu": "1",
+            "id_kamar": "1",
+            "tanggal_masuk": "2025-12-28",
+            "tanggal_keluar": "2026-01-07",
+            "status": "Dirawat"
+        }
+    },
+    "pembayaran": {
+        "1": {
+            "id_janji_temu": "1",
+            "id_pasien": "1",
+            "jumlah": 150000,
+            "tanggal_pembayaran": "2025-12-27 14:13:02",
+            "status": "Lunas",
+            "metode_pembayaran": "Cash",
+            "jenis_layanan": "Konsultasi Umum"
         },
         "2": {
-            "name": "Putri Dewi Lestari",
-            "phone": "0895-7356-7466",
-            "address": "Beringin Kencana",
-            "birth_date": "2004-05-15",
-            "created_at": "2025-10-24 14:30:07"
+            "id_janji_temu": "1",
+            "id_pasien": "1",
+            "jumlah": 100000,
+            "tanggal_pembayaran": "2025-12-27 14:16:56",
+            "status": "Lunas",
+            "metode_pembayaran": "Kartu Kredit/Debit",
+            "jenis_layanan": "Biaya Tambahan (Checkup)"
         },
         "3": {
-            "name": "asu",
-            "phone": "08277",
-            "address": "sfkhhkbc",
-            "birth_date": "3983-83-93",
-            "created_at": "2025-10-24 22:24:44"
-        },
-        "4": {
-            "name": "hhfbh",
-            "phone": "83828",
-            "address": "hfdv",
-            "birth_date": "3838-33-33",
-            "created_at": "2025-10-24 22:25:13"
-        },
-        "5": {
-            "name": "new",
-            "phone": "087676",
-            "address": "hgyff",
-            "birth_date": "7699-86-78",
-            "created_at": "2025-10-24 22:45:41"
-        }
-    },
-    "schedules": {
-        "1": {
-            "doctor_id": "1",
-            "available_date": "2025-10-25",
-            "available_time": "08:00 - 13:00",
-            "is_available": false
-        },
-        "2": {
-            "doctor_id": "3",
-            "available_date": "2025-10-28",
-            "available_time": "10:00 - 15:00",
-            "is_available": false
-        },
-        "3": {
-            "doctor_id": "2",
-            "available_date": "2025-10-29",
-            "available_time": "13:00 - 19:00",
-            "is_available": false
-        },
-        "4": {
-            "doctor_id": "3",
-            "available_date": "2025-10-30",
-            "available_time": "08:00 - 12:00",
-            "is_available": false
-        },
-        "5": {
-            "doctor_id": "1",
-            "available_date": "8777-38-84",
-            "available_time": "83:88 - 99:67",
-            "is_available": false
-        },
-        "6": {
-            "doctor_id": "1",
-            "available_date": "8747-94-94",
-            "available_time": "08:98 - 93:38",
-            "is_available": true
-        }
-    },
-    "appointments": {
-        "3": {
-            "patient_id": "5",
-            "schedule_id": "4",
-            "booking_date": "2025-10-25 00:08:42",
-            "status": "Scheduled"
-        },
-        "2": {
-            "patient_id": "3",
-            "schedule_id": "5",
-            "booking_date": "2025-10-24 22:28:02",
-            "status": "Completed"
-        }
-    },
-    "checkups": {
-        "1": {
-            "appointment_id": "2",
-            "checkup_date": "2025-10-24 22:32:29",
-            "diagnosis": "asu pilek",
-            "notes": "asu turu"
-        }
-    },
-    "admissions": {
-        "1": {
-            "patient_id": "2",
-            "appointment_id": "2",
-            "room_id": "1",
-            "admission_date": "2025-10-24",
-            "discharge_date": "2025-10-29",
-            "status": "Admitted"
-        }
-    },
-    "payments": {
-        "1": {
-            "appointment_id": "1",
-            "patient_id": "1",
-            "amount": 150000,
-            "payment_date": "2025-10-23 23:50:13",
-            "status": "Paid",
-            "payment_method": "Transfer Bank",
-            "service_type": "Konsultasi Umum"
-        },
-        "2": {
-            "appointment_id": "2",
-            "patient_id": "2",
-            "amount": 4526000,
-            "payment_date": "2025-10-24 17:01:09",
-            "status": "Paid",
-            "payment_method": "E-Wallet (LinkAja)",
-            "service_type": "Peyembuhan dan Isolasi Corona"
-        },
-        "3": {
-            "appointment_id": "3",
-            "patient_id": "2",
-            "amount": 150000,
-            "payment_date": "",
-            "status": "Pending",
-            "payment_method": "",
-            "service_type": "Konsultasi Umum"
-        },
-        "4": {
-            "appointment_id": "3",
-            "patient_id": "5",
-            "amount": 150000,
-            "payment_date": "",
-            "status": "Pending",
-            "payment_method": "",
-            "service_type": "Konsultasi Umum"
-        },
-        "5": {
-            "appointment_id": "3",
-            "patient_id": "5",
-            "amount": 150000,
-            "payment_date": "",
-            "status": "Pending",
-            "payment_method": "",
-            "service_type": "Konsultasi Umum"
+            "id_janji_temu": "1",
+            "id_pasien": "1",
+            "jumlah": 5000000,
+            "tanggal_pembayaran": "2025-12-27 14:21:44",
+            "status": "Lunas",
+            "metode_pembayaran": "Kartu Kredit/Debit",
+            "jenis_layanan": "Biaya Rawat Inap"
         }
     }
 }

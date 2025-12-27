@@ -16,26 +16,26 @@ def menu_admin():
         print("4. Manajemen Ruangan")
         print("5. Laporan Sederhana")
         print("0. Logout Admin")
-        choice = input("Pilih menu: ")
+        pilihan = input("Pilih menu: ")
 
-        if choice == '1':
+        if pilihan == '1':
             clear_screen()
             manajemen_user(data)
-        elif choice == '2':
+        elif pilihan == '2':
             clear_screen()
             manajemen_departemen(data)
-        elif choice == '3':
+        elif pilihan == '3':
             clear_screen()
             manajemen_dokter(data)
-        elif choice == '4':
+        elif pilihan == '4':
             clear_screen()
             manajemen_ruangan(data)
-        elif choice == '5':
+        elif pilihan == '5':
             clear_screen()
-            laporan_sederhana(data)
-        elif choice == '0':
-            confirm = input("Apakah Anda Yakin Ingin Logout? [Y/N] : ").lower()
-            if confirm == 'y':
+            laporan_sederhana()
+        elif pilihan == '0':
+            konfirmasi = input("Apakah Anda Yakin Ingin Logout? [Y/N] : ").lower()
+            if konfirmasi == 'y':
                 print(f"{H}[🗸] Logout berhasil.{R}")
                 time.sleep(2)
                 clear_screen()
@@ -61,18 +61,18 @@ def manajemen_user(data):
         print("3. Edit User")
         print("4. Hapus User")
         print("0. Kembali ke Menu Admin")
-        choice = input("Pilih menu: ")
+        pilihan = input("Pilih menu: ")
 
-        if choice == '1':
+        if pilihan == '1':
             print(f"\n{H}Daftar User:")
-            for uname, uinfo in data["users"].items():
-                print(f"Username: {uname}, ID: {uinfo['id']}, Role: {uinfo['role']}")
-        elif choice == '2':
+            for username, info_user in data["users"].items():
+                print(f"Username: {username}, ID: {info_user['id']}, Peran: {info_user['role']}")
+        elif pilihan == '2':
             username = input("Username Baru: ")
-            password = input("Password Baru: ")
-            role = input("Role (admin/staff/user): ")
-            if role not in ['admin', 'staff', 'user']:
-                print(Fore.RED + "Role tidak valid.")
+            kata_sandi = input("Password Baru: ")
+            peran = input("Peran (admin/staff/user): ")
+            if peran not in ['admin', 'staff', 'user']:
+                print(Fore.RED + "Peran tidak valid.")
                 time.sleep(3)
                 clear_screen()
                 continue
@@ -81,52 +81,52 @@ def manajemen_user(data):
                 continue
             
             # Membuat ID baru yang unik dan berurutan
-            max_user_id = 0
-            for uinfo in data["users"].values():
+            id_user_maks = 0
+            for info_user in data["users"].values():
                 try:
-                    current_id = int(uinfo["id"])
-                    if current_id > max_user_id:
-                        max_user_id = current_id
+                    id_saat_ini = int(info_user["id"])
+                    if id_saat_ini > id_user_maks:
+                        id_user_maks = id_saat_ini
                 except ValueError:
                     # Abaikan jika 'id' bukan angka
                     pass
-            user_id = str(max_user_id + 1)
+            id_user = str(id_user_maks + 1)
 
-            data["users"][username] = {"id": user_id, "password": password, "role": role}
+            data["users"][username] = {"id": id_user, "password": kata_sandi, "role": peran}
             save_data(data)
             print(f"{H}[🗸] User berhasil ditambahkan.{R}")
             time.sleep(3)
             clear_screen() # Membersihkan layar setelah penambahan
-        elif choice == '3':
+        elif pilihan == '3':
             print(f"\n{H}Daftar User:")
-            for uname, uinfo in data["users"].items():
-                print(f"Username: {uname}, ID: {uinfo['id']}, Role: {uinfo['role']}")
+            for username, info_user in data["users"].items():
+                print(f"Username: {username}, ID: {info_user['id']}, Peran: {info_user['role']}")
             username = input("Username yang akan diedit: ")
             if username not in data["users"]:
                 print(Fore.RED + "Username tidak ditemukan.")
                 time.sleep(3)
                 clear_screen()
                 continue
-            uinfo = data["users"][username]
-            print(f"Data saat ini: Username: {username}, ID: {uinfo['id']}, Role: {uinfo['role']}")
-            new_role = input(f"Role Baru (sekarang: {uinfo['role']}): ") or uinfo['role']
-            if new_role not in ['admin', 'staff', 'user']:
-                print("Role tidak valid.")
+            info_user = data["users"][username]
+            print(f"Data saat ini: Username: {username}, ID: {info_user['id']}, Peran: {info_user['role']}")
+            peran_baru = input(f"Peran Baru (sekarang: {info_user['role']}): ") or info_user['role']
+            if peran_baru not in ['admin', 'staff', 'user']:
+                print("Peran tidak valid.")
                 time.sleep(3)
                 clear_screen()
                 continue
-            new_password = input("Password Baru (tekan Enter jika tidak ingin diganti): ")
-            if new_password:
-                data["users"][username]["password"] = new_password
-            data["users"][username]["role"] = new_role
+            kata_sandi_baru = input("Kata Sandi Baru (tekan Enter jika tidak ingin diganti): ")
+            if kata_sandi_baru:
+                data["users"][username]["password"] = kata_sandi_baru
+            data["users"][username]["role"] = peran_baru
             save_data(data)
             print(f"{H}[🗸] User berhasil diubah.{R}")
             time.sleep(3)
             clear_screen()
-        elif choice == '4':
+        elif pilihan == '4':
             print(f"\n{H}Daftar User:")
-            for uname, uinfo in data["users"].items():
-                print(f"Username: {uname}, ID: {uinfo['id']}, Role: {uinfo['role']}")
+            for username, info_user in data["users"].items():
+                print(f"Username: {username}, ID: {info_user['id']}, Peran: {info_user['role']}")
             username = input("Username yang akan dihapus: ")
             if username == 'admin': # Proteksi akun admin default
                 print(Fore.RED + "Tidak bisa menghapus akun admin default.")
@@ -138,17 +138,17 @@ def manajemen_user(data):
                 del data["users"][username]
 
                 # --- Logika untuk mengurutkan ulang ID ---
-                new_users = {}
+                user_baru_dict = {}
                 # Urutkan berdasarkan username untuk konsistensi saat re-indexing
-                sorted_user_items = sorted(data["users"].items())
+                item_user_diurutkan = sorted(data["users"].items())
 
-                for i, (uname, uinfo) in enumerate(sorted_user_items):
-                    new_id = str(i + 1)
-                    uinfo["id"] = new_id # Perbarui ID di dalam objek user
-                    new_users[uname] = uinfo
+                for i, (username, info_user) in enumerate(item_user_diurutkan):
+                    id_baru = str(i + 1)
+                    info_user["id"] = id_baru # Perbarui ID di dalam objek user
+                    user_baru_dict[username] = info_user
                 
                 # Ganti dictionary users lama dengan yang baru
-                data["users"] = new_users
+                data["users"] = user_baru_dict
 
                 save_data(data)
                 print(f"{H}[🗸] User berhasil dihapus dan ID telah diurutkan ulang.{R}")
@@ -158,7 +158,7 @@ def manajemen_user(data):
                 print(Fore.RED + "Username tidak ditemukan.")
                 time.sleep(3)
                 clear_screen()
-        elif choice == '0':
+        elif pilihan == '0':
             clear_screen()
             break
         else:
@@ -178,93 +178,93 @@ def manajemen_departemen(data):
         print("3. Edit Departemen")
         print("4. Hapus Departemen")
         print("0. Kembali ke Menu Admin")
-        choice = input("Pilih menu: ")
+        pilihan = input("Pilih menu: ")
 
-        if choice == '1':
+        if pilihan == '1':
             print(f"\n{H}Daftar Departemen:{R}")
-            for did, dinfo in data["departments"].items():
-                print(f"ID: {did}, Nama: {dinfo['name']}")
-        elif choice == '2':
+            for id_dept, info_dept in data["departemen"].items():
+                print(f"ID: {id_dept}, Nama: {info_dept['nama']}")
+        elif pilihan == '2':
             name = input("Nama Departemen Baru: ").strip()
             if not name:
                 print(Fore.RED + "Nama departemen tidak boleh kosong.")
                 time.sleep(3)
                 clear_screen()
                 continue
-            dept_id = str(len(data["departments"]) + 1)
-            data["departments"][dept_id] = {"name": name}
+            id_departemen = str(len(data["departemen"]) + 1)
+            data["departemen"][id_departemen] = {"nama": name}
             save_data(data)
             print(f"{H}[🗸] Departemen berhasil ditambahkan.{R}")
             time.sleep(3)
             clear_screen()
-        elif choice == '3':
+        elif pilihan == '3':
             print(f"\n{H}Daftar Departemen:{R}")
-            for did, dinfo in data["departments"].items():
-                print(f"ID: {did}, Nama: {dinfo['name']}")
-            dept_id = input("ID Departemen yang akan diedit: ").strip() # Menambahkan .strip()
-            if dept_id not in data["departments"]:
+            for id_dept, info_dept in data["departemen"].items():
+                print(f"ID: {id_dept}, Nama: {info_dept['nama']}")
+            id_departemen = input("ID Departemen yang akan diedit: ").strip() # Menambahkan .strip()
+            if id_departemen not in data["departemen"]:
                 print(Fore.RED + "ID Departemen tidak ditemukan.")
                 time.sleep(3) # Menambahkan jeda waktu
                 clear_screen()
                 continue
-            dinfo = data["departments"][dept_id]
-            print(f"\nData saat ini: ID: {dept_id}, Nama: {dinfo['name']}")
-            new_name = input(f"Nama Baru (sekarang: {dinfo['name']}): ").strip()
-            if not new_name:
+            info_dept = data["departemen"][id_departemen]
+            print(f"\nData saat ini: ID: {id_departemen}, Nama: {info_dept['nama']}")
+            nama_baru = input(f"Nama Baru (sekarang: {info_dept['nama']}): ").strip()
+            if not nama_baru:
                 print(Fore.RED + "Nama departemen tidak boleh kosong. Pembatalan edit.")
                 time.sleep(3)
                 clear_screen()
                 continue
-            data["departments"][dept_id]["name"] = new_name
+            data["departemen"][id_departemen]["nama"] = nama_baru
             save_data(data)
             print(f"{H}[🗸] Departemen berhasil diubah.{R}")
             time.sleep(3)
             clear_screen()
-        elif choice == '4':
+        elif pilihan == '4':
             print(f"\n{H}Daftar Departemen:{R}")
-            for did, dinfo in data["departments"].items():
-                print(f"ID: {did}, Nama: {dinfo['name']}")
-            dept_id = input("ID Departemen yang akan dihapus: ").strip()
-            if dept_id not in data["departments"]:
+            for id_dept, info_dept in data["departemen"].items():
+                print(f"ID: {id_dept}, Nama: {info_dept['nama']}")
+            id_departemen = input("ID Departemen yang akan dihapus: ").strip()
+            if id_departemen not in data["departemen"]:
                 print(Fore.RED + "ID Departemen tidak ditemukan.")
                 time.sleep(3)
                 clear_screen()
                 continue
             # Cek apakah ada dokter di departemen ini
-            doctors_in_dept = [doc_id for doc_id, doc_info in data["doctors"].items() if doc_info["specialty_id"] == dept_id]
-            if doctors_in_dept:
-                print(Fore.RED + f"Departemen '{data['departments'][dept_id]['name']}' masih memiliki dokter ({len(doctors_in_dept)}). Hapus dokter terlebih dahulu.")
+            dokter_di_dept = [id_dokter for id_dokter, info_dokter in data["dokter"].items() if info_dokter["id_spesialis"] == id_departemen]
+            if dokter_di_dept:
+                print(Fore.RED + f"Departemen '{data['departemen'][id_departemen]['nama']}' masih memiliki dokter ({len(dokter_di_dept)}). Hapus dokter terlebih dahulu.")
                 continue
             
             # Hapus departemen yang dipilih
-            del data["departments"][dept_id]
+            del data["departemen"][id_departemen]
 
             # --- Logika untuk mengurutkan ulang ID ---
             # 1. Buat dictionary departemen baru dan peta ID
-            new_departments = {}
-            id_map = {}
+            departemen_baru = {}
+            peta_id = {}
             # Urutkan berdasarkan ID numerik untuk konsistensi
-            sorted_old_ids = sorted(data["departments"].keys(), key=int)
+            id_lama_diurutkan = sorted(data["departemen"].keys(), key=int)
 
-            for i, old_id in enumerate(sorted_old_ids):
-                new_id = str(i + 1)
-                new_departments[new_id] = data["departments"][old_id]
-                if old_id != new_id:
-                    id_map[old_id] = new_id
+            for i, id_lama in enumerate(id_lama_diurutkan):
+                id_baru = str(i + 1)
+                departemen_baru[id_baru] = data["departemen"][id_lama]
+                if id_lama != id_baru:
+                    peta_id[id_lama] = id_baru
             
             # 2. Ganti dictionary departemen lama dengan yang baru
-            data["departments"] = new_departments
+            data["departemen"] = departemen_baru
 
-            # 3. Perbarui referensi 'specialty_id' di data dokter
-            for doc_info in data["doctors"].values():
-                if doc_info["specialty_id"] in id_map:
-                    doc_info["specialty_id"] = id_map[doc_info["specialty_id"]]
+            # 3. Perbarui referensi 'id_spesialis' di data dokter
+            for info_dokter in data["dokter"].values():
+                if info_dokter["id_spesialis"] in peta_id:
+                    info_dokter["id_spesialis"] = peta_id[info_dokter["id_spesialis"]]
 
             save_data(data)
             print(f"{H}[🗸] Departemen berhasil dihapus dan ID telah diurutkan ulang.{R}")
             time.sleep(3)
             clear_screen()
-        elif choice == '0':
+        elif pilihan == '0':
             clear_screen()
             break
         else:
@@ -283,14 +283,14 @@ def manajemen_dokter(data):
         print("3. Edit Dokter")
         print("4. Hapus Dokter")
         print("0. Kembali ke Menu Admin")
-        choice = input("Pilih menu: ")
+        pilihan = input("Pilih menu: ")
 
-        if choice == '1':
+        if pilihan == '1':
             print(f"\n{H}Daftar Dokter:{R}")
-            for doc_id, doc_info in data["doctors"].items():
-                dept_name = data["departments"].get(doc_info["specialty_id"], {"name": "Tidak Ditemukan"})["name"]
-                print(f"ID: {doc_id}, Nama: {doc_info['name']}, Departemen: {dept_name}, Telp: {doc_info['phone']}")
-        elif choice == '2':
+            for id_dokter, info_dokter in data["dokter"].items():
+                nama_departemen = data["departemen"].get(info_dokter["id_spesialis"], {"nama": "Tidak Ditemukan"})["nama"]
+                print(f"ID: {id_dokter}, Nama: {info_dokter['nama']}, Departemen: {nama_departemen}, Telp: {info_dokter['telepon']}")
+        elif pilihan == '2':
             name = input("Nama Dokter Baru: ").strip()
             if not name:
                 print(Fore.RED + "Nama dokter tidak boleh kosong.")
@@ -306,97 +306,97 @@ def manajemen_dokter(data):
                 continue
 
             print(f"\n{H}Pilih Daftar Kategori Departemen Dokter Baru:{R}")
-            for did, dinfo in data["departments"].items():
-                print(f"ID: {did}, Nama: {dinfo['name']}")
-            specialty_id = input("Pilih ID Departemen: ").strip()
-            if specialty_id not in data["departments"]:
+            for id_dept, info_dept in data["departemen"].items():
+                print(f"ID: {id_dept}, Nama: {info_dept['nama']}")
+            id_spesialis = input("Pilih ID Departemen: ").strip()
+            if id_spesialis not in data["departemen"]:
                 print(Fore.RED + "ID Departemen tidak valid atau tidak ditemukan.")
                 time.sleep(3)
                 clear_screen()
                 continue
             
             # Membuat ID baru yang lebih andal
-            doc_id = str(max([int(k) for k in data["doctors"].keys()] or [0]) + 1)
-            data["doctors"][doc_id] = {"name": name, "specialty_id": specialty_id, "phone": phone}
+            id_dokter = str(max([int(k) for k in data["dokter"].keys()] or [0]) + 1)
+            data["dokter"][id_dokter] = {"nama": name, "id_spesialis": id_spesialis, "telepon": phone}
             save_data(data)
             print(f"{H}[🗸] Dokter berhasil ditambahkan.{R}")
             time.sleep(3)
             clear_screen()
-        elif choice == '3':
+        elif pilihan == '3':
             print(f"\n{H}Daftar Dokter:{R}")
-            for doc_id, doc_info in data["doctors"].items():
-                dept_name = data["departments"].get(doc_info["specialty_id"], {"name": "Tidak Ditemukan"})["name"]
-                print(f"ID: {doc_id}, Nama: {doc_info['name']}, Departemen: {dept_name}, Telp: {doc_info['phone']}")
-            doc_id = input("ID Dokter yang akan diedit: ")
-            if doc_id not in data["doctors"]:
+            for id_dokter, info_dokter in data["dokter"].items():
+                nama_departemen = data["departemen"].get(info_dokter["id_spesialis"], {"nama": "Tidak Ditemukan"})["nama"]
+                print(f"ID: {id_dokter}, Nama: {info_dokter['nama']}, Departemen: {nama_departemen}, Telp: {info_dokter['telepon']}")
+            id_dokter = input("ID Dokter yang akan diedit: ")
+            if id_dokter not in data["dokter"]:
                 print(Fore.RED + "ID Dokter tidak ditemukan.")
                 time.sleep(3)
                 clear_screen()
                 continue
-            doc_info = data["doctors"][doc_id]
-            dept_name = data["departments"].get(doc_info["specialty_id"], {"name": "Tidak Ditemukan"})["name"]
-            print(f"Data saat ini: ID: {doc_id}, Nama: {doc_info['name']}, Departemen: {dept_name}, Telp: {doc_info['phone']}")
-            new_name = input(f"Nama Baru (sekarang: {doc_info['name']}): ") or doc_info['name']
-            new_phone = input(f"Telp Baru (sekarang: {doc_info['phone']}): ") or doc_info['phone']
+            info_dokter = data["dokter"][id_dokter]
+            nama_departemen = data["departemen"].get(info_dokter["id_spesialis"], {"nama": "Tidak Ditemukan"})["nama"]
+            print(f"Data saat ini: ID: {id_dokter}, Nama: {info_dokter['nama']}, Departemen: {nama_departemen}, Telp: {info_dokter['telepon']}")
+            nama_baru = input(f"Nama Baru (sekarang: {info_dokter['nama']}): ") or info_dokter['nama']
+            telepon_baru = input(f"Telp Baru (sekarang: {info_dokter['telepon']}): ") or info_dokter['telepon']
             print(f"\n{H}Daftar Departemen:{R}")
-            for did, dinfo in data["departments"].items():
-                print(f"ID: {did}, Nama: {dinfo['name']}")
-            new_spec_id = input(f"ID Departemen Baru (sekarang: {doc_info['specialty_id']}): ") or doc_info['specialty_id']
-            if new_spec_id not in data["departments"]:
+            for id_dept, info_dept in data["departemen"].items():
+                print(f"ID: {id_dept}, Nama: {info_dept['nama']}")
+            id_spesialis_baru = input(f"ID Departemen Baru (sekarang: {info_dokter['id_spesialis']}): ") or info_dokter['id_spesialis']
+            if id_spesialis_baru not in data["departemen"]:
                 print(Fore.RED + "ID Departemen tidak ditemukan.")
                 clear_screen()
                 continue
-            data["doctors"][doc_id] = {"name": new_name, "specialty_id": new_spec_id, "phone": new_phone}
+            data["dokter"][id_dokter] = {"nama": nama_baru, "id_spesialis": id_spesialis_baru, "telepon": telepon_baru}
             save_data(data)
             print(f"{H}[🗸] Dokter berhasil diubah.{R}")
             time.sleep(3)
             clear_screen()
-        elif choice == '4':
+        elif pilihan == '4':
             print(f"\n{H}Daftar Dokter:{R}")
-            for doc_id, doc_info in data["doctors"].items():
-                dept_name = data["departments"].get(doc_info["specialty_id"], {"name": "Tidak Ditemukan"})["name"]
-                print(f"ID: {doc_id}, Nama: {doc_info['name']}, Departemen: {dept_name}, Telp: {doc_info['phone']}")
-            doc_id = input("ID Dokter yang akan dihapus: ").strip()
-            if doc_id not in data["doctors"]:
+            for id_dokter, info_dokter in data["dokter"].items():
+                nama_departemen = data["departemen"].get(info_dokter["id_spesialis"], {"nama": "Tidak Ditemukan"})["nama"]
+                print(f"ID: {id_dokter}, Nama: {info_dokter['nama']}, Departemen: {nama_departemen}, Telp: {info_dokter['telepon']}")
+            id_dokter = input("ID Dokter yang akan dihapus: ").strip()
+            if id_dokter not in data["dokter"]:
                 print(Fore.RED + "ID Dokter tidak ditemukan.")
                 time.sleep(3)
                 clear_screen()
                 continue
             # Cek apakah ada jadwal aktif untuk dokter ini
-            schedules_for_doc = [sid for sid, sinfo in data["schedules"].items() if sinfo["doctor_id"] == doc_id]
-            if schedules_for_doc:
-                print(Fore.RED + f"Dokter '{data['doctors'][doc_id]['name']}' masih memiliki jadwal aktif. Hapus jadwal terlebih dahulu.")
+            jadwal_dokter = [sid for sid, info_jadwal in data["jadwal"].items() if info_jadwal["id_dokter"] == id_dokter]
+            if jadwal_dokter:
+                print(Fore.RED + f"Dokter '{data['dokter'][id_dokter]['nama']}' masih memiliki jadwal aktif. Hapus jadwal terlebih dahulu.")
                 continue
             
             # Hapus dokter yang dipilih
-            del data["doctors"][doc_id]
+            del data["dokter"][id_dokter]
 
             # --- Logika untuk mengurutkan ulang ID ---
             # 1. Buat dictionary dokter baru dan peta ID
-            new_doctors = {}
-            id_map = {}
+            dokter_baru = {}
+            peta_id = {}
             # Urutkan berdasarkan ID numerik untuk konsistensi
-            sorted_old_ids = sorted(data["doctors"].keys(), key=int)
+            id_lama_diurutkan = sorted(data["dokter"].keys(), key=int)
 
-            for i, old_id in enumerate(sorted_old_ids):
-                new_id = str(i + 1)
-                new_doctors[new_id] = data["doctors"][old_id]
-                if old_id != new_id:
-                    id_map[old_id] = new_id
+            for i, id_lama in enumerate(id_lama_diurutkan):
+                id_baru = str(i + 1)
+                dokter_baru[id_baru] = data["dokter"][id_lama]
+                if id_lama != id_baru:
+                    peta_id[id_lama] = id_baru
             
             # 2. Ganti dictionary dokter lama dengan yang baru
-            data["doctors"] = new_doctors
+            data["dokter"] = dokter_baru
 
             # 3. Perbarui referensi di 'schedules' (jadwal)
-            for schedule_id, schedule_info in data["schedules"].items():
-                if schedule_info["doctor_id"] in id_map:
-                    schedule_info["doctor_id"] = id_map[schedule_info["doctor_id"]]
+            for schedule_id, schedule_info in data["jadwal"].items():
+                if schedule_info["id_dokter"] in peta_id:
+                    schedule_info["id_dokter"] = peta_id[schedule_info["id_dokter"]]
 
             save_data(data)
             print(f"{H}[🗸] Dokter berhasil dihapus dan ID telah diurutkan ulang.{R}")
             time.sleep(3)
             clear_screen()
-        elif choice == '0':
+        elif pilihan == '0':
             clear_screen()
             # Cukup break untuk kembali ke menu admin utama, yang akan memuat ulang data
             break
@@ -417,16 +417,16 @@ def manajemen_ruangan(data):
         print("3. Edit Ruangan")
         print("4. Hapus Ruangan")
         print("0. Kembali ke Menu Admin")
-        choice = input("Pilih menu: ")
+        pilihan = input("Pilih menu: ")
 
-        if choice == '1':
+        if pilihan == '1':
             print(f"\n{H}Daftar Ruangan:{R}")
-            for rid, rinfo in data["rooms"].items():
-                is_available = rinfo.get("is_available", True)
-                status_text = "Tersedia" if is_available else "Tidak Tersedia"
-                status_color = Fore.GREEN if is_available else Fore.YELLOW
-                print(f"ID: {rid}, Nama: {rinfo['name']}, Tipe: {rinfo['type']}, Status: {status_color}{status_text}{R}")
-        elif choice == '2':
+            for id_kamar, info_kamar in data["kamar"].items():
+                tersedia = info_kamar.get("tersedia", True)
+                teks_status = "Tersedia" if tersedia else "Tidak Tersedia"
+                warna_status = Fore.GREEN if tersedia else Fore.YELLOW
+                print(f"ID: {id_kamar}, Nama: {info_kamar['nama']}, Tipe: {info_kamar['tipe']}, Status: {warna_status}{teks_status}{R}")
+        elif pilihan == '2':
             name = input("Nama Ruangan Baru: ").strip()
             if not name:
                 print(Fore.RED + "Nama ruangan tidak boleh kosong.")
@@ -434,95 +434,104 @@ def manajemen_ruangan(data):
                 clear_screen()
                 continue
 
-            type_room = input("Tipe Ruangan (VIP/Kelas 1/Kelas 2/Kelas 3): ").strip()
-            if not type_room:
+            tipe_kamar = input("Tipe Ruangan (VIP/Kelas 1/Kelas 2/Kelas 3): ").strip()
+            if not tipe_kamar:
                 print(Fore.RED + "Tipe ruangan tidak boleh kosong.")
                 time.sleep(3)
                 clear_screen()
                 continue
 
             # Membuat ID baru yang lebih andal
-            room_id = str(max([int(k) for k in data["rooms"].keys()] or [0]) + 1)
-            data["rooms"][room_id] = {"name": name, "type": type_room, "is_available": True}
+            id_kamar = str(max([int(k) for k in data["kamar"].keys()] or [0]) + 1)
+            data["kamar"][id_kamar] = {"nama": name, "tipe": tipe_kamar, "tersedia": True}
             save_data(data)
             print(f"{H}[🗸] Ruangan berhasil ditambahkan.{R}")
             time.sleep(3)
             clear_screen()
-        elif choice == '3':
+        elif pilihan == '3':
             print(f"\n{H}Daftar Ruangan:{R}")
-            for rid, rinfo in data["rooms"].items():
-                is_available = rinfo.get("is_available", True)
-                status_text = "Tersedia" if is_available else "Tidak Tersedia"
-                status_color = Fore.GREEN if is_available else Fore.YELLOW
-                print(f"ID: {rid}, Nama: {rinfo['name']}, Tipe: {rinfo['type']}, Status: {status_color}{status_text}{R}")
-            room_id = input("ID Ruangan yang akan diedit: ").strip()
-            if not room_id:
+            for id_kamar, info_kamar in data["kamar"].items():
+                tersedia = info_kamar.get("tersedia", True)
+                teks_status = "Tersedia" if tersedia else "Tidak Tersedia"
+                warna_status = Fore.GREEN if tersedia else Fore.YELLOW
+                print(f"ID: {id_kamar}, Nama: {info_kamar['nama']}, Tipe: {info_kamar['tipe']}, Status: {warna_status}{teks_status}{R}")
+            id_kamar = input("ID Ruangan yang akan diedit: ").strip()
+            if not id_kamar:
                 print(Fore.RED + "ID Ruangan tidak boleh kosong.")
                 time.sleep(3)
                 clear_screen()
                 continue
-            if room_id not in data["rooms"]:
+            if id_kamar not in data["kamar"]:
                 print(Fore.RED + "ID Ruangan tidak ditemukan.")
                 time.sleep(3)
                 clear_screen()
                 continue
-            rinfo = data["rooms"][room_id]
-            print(f"Data saat ini: ID: {room_id}, Nama: {rinfo['name']}, Tipe: {rinfo['type']}, Tersedia: {rinfo.get('is_available', True)}")
-            new_name = input(f"Nama Baru (sekarang: {rinfo['name']}): ") or rinfo['name']
-            new_type = input(f"Tipe Baru (sekarang: {rinfo['type']}): ") or rinfo['type']
-            # Tidak mengedit is_available di sini, karena statusnya tergantung pada rawat inap
-            data["rooms"][room_id] = {"name": new_name, "type": new_type, "is_available": rinfo.get('is_available', True)}
+            info_kamar = data["kamar"][id_kamar]
+            print(f"Data saat ini: ID: {id_kamar}, Nama: {info_kamar['nama']}, Tipe: {info_kamar['tipe']}, Tersedia: {info_kamar.get('tersedia', True)}")
+            nama_baru = input(f"Nama Baru (sekarang: {info_kamar['nama']}): ") or info_kamar['nama']
+            tipe_baru = input(f"Tipe Baru (sekarang: {info_kamar['tipe']}): ") or info_kamar['tipe']
+            status_saat_ini = info_kamar.get('tersedia', True)
+            label_status = "Tersedia" if status_saat_ini else "Tidak Tersedia"
+            status_input = input(f"Ubah Status Ketersediaan? (y=Tersedia, n=Tidak Tersedia, Enter=Tetap [{label_status}]): ").lower().strip()
+            
+            status_baru = status_saat_ini
+            if status_input == 'y':
+                status_baru = True
+            elif status_input == 'n':
+                status_baru = False
+
+            data["kamar"][id_kamar] = {"nama": nama_baru, "tipe": tipe_baru, "tersedia": status_baru}
             save_data(data)
             print(f"{H}[🗸] Ruangan berhasil diubah.{R}")
             time.sleep(3)
             clear_screen()
-        elif choice == '4':
+        elif pilihan == '4':
             print(f"\n{H}Daftar Ruangan:{R}")
-            for rid, rinfo in data["rooms"].items():
-                is_available = rinfo.get("is_available", True)
-                status_text = "Tersedia" if is_available else "Tidak Tersedia"
-                status_color = Fore.GREEN if is_available else Fore.YELLOW
-                print(f"ID: {rid}, Nama: {rinfo['name']}, Tipe: {rinfo['type']}, Status: {status_color}{status_text}{R}")
-            room_id = input("ID Ruangan yang akan dihapus: ")
-            if room_id not in data["rooms"]:
+            for id_kamar, info_kamar in data["kamar"].items():
+                tersedia = info_kamar.get("tersedia", True)
+                teks_status = "Tersedia" if tersedia else "Tidak Tersedia"
+                warna_status = Fore.GREEN if tersedia else Fore.YELLOW
+                print(f"ID: {id_kamar}, Nama: {info_kamar['nama']}, Tipe: {info_kamar['tipe']}, Status: {warna_status}{teks_status}{R}")
+            id_kamar = input("ID Ruangan yang akan dihapus: ")
+            if id_kamar not in data["kamar"]:
                 print(Fore.RED + "ID Ruangan tidak ditemukan.")
                 time.sleep(3)
                 clear_screen()
                 continue
-            rinfo = data["rooms"][room_id]
-            if not rinfo.get("is_available", True): # Jika tidak tersedia, berarti sedang digunakan
-                print(Fore.RED + f"Ruangan '{rinfo['name']}' sedang digunakan (tidak tersedia). Hapus data rawat inap terlebih dahulu.")
+            info_kamar = data["kamar"][id_kamar]
+            if not info_kamar.get("tersedia", True): # Jika tidak tersedia, berarti sedang digunakan
+                print(Fore.RED + f"Ruangan '{info_kamar['nama']}' sedang digunakan (tidak tersedia). Hapus data rawat inap terlebih dahulu.")
                 continue
             
             # Hapus ruangan yang dipilih
-            del data["rooms"][room_id]
+            del data["kamar"][id_kamar]
 
             # --- Logika untuk mengurutkan ulang ID ---
             # 1. Buat dictionary ruangan baru dan peta ID
-            new_rooms = {}
-            id_map = {}
+            kamar_baru = {}
+            peta_id = {}
             # Urutkan berdasarkan ID numerik untuk konsistensi
-            sorted_old_ids = sorted(data["rooms"].keys(), key=int)
+            id_lama_diurutkan = sorted(data["kamar"].keys(), key=int)
             
-            for i, old_id in enumerate(sorted_old_ids):
-                new_id = str(i + 1)
-                new_rooms[new_id] = data["rooms"][old_id]
-                if old_id != new_id:
-                    id_map[old_id] = new_id
+            for i, id_lama in enumerate(id_lama_diurutkan):
+                id_baru = str(i + 1)
+                kamar_baru[id_baru] = data["kamar"][id_lama]
+                if id_lama != id_baru:
+                    peta_id[id_lama] = id_baru
             
             # 2. Ganti dictionary ruangan lama dengan yang baru
-            data["rooms"] = new_rooms
+            data["kamar"] = kamar_baru
 
             # 3. Perbarui referensi di 'admissions' (rawat inap)
-            for admission_id, admission_info in data["admissions"].items():
-                if admission_info["room_id"] in id_map:
-                    admission_info["room_id"] = id_map[admission_info["room_id"]]
+            for id_rawat_inap, info_rawat_inap in data["rawat_inap"].items():
+                if info_rawat_inap["id_kamar"] in peta_id:
+                    info_rawat_inap["id_kamar"] = peta_id[info_rawat_inap["id_kamar"]]
             
             save_data(data)
             print(f"{H}[🗸] Ruangan berhasil dihapus.{R}")
             time.sleep(3)
             clear_screen()
-        elif choice == '0':
+        elif pilihan == '0':
             clear_screen()
             break
         else:
@@ -533,54 +542,54 @@ def manajemen_ruangan(data):
 
 
 # --- Fungsi Laporan Sederhana (Admin) ---
-def laporan_sederhana(data):
+def laporan_sederhana():
+    data = load_data()
     print(f"\n--- Laporan Sederhana ({H}Admin{R}) ---")
-    # Untuk laporan, cukup muat data sekali di awal fungsi ini karena tidak ada loop
     print("1. Laporan Janji Harian")
     print("2. Laporan Pasien per Departemen")
     print("3. Laporan Ruangan Tersedia")
-    sub_choice = input("Pilih laporan: ")
+    pilihan_sub = input("Pilih laporan: ")
 
-    if sub_choice == '1':
-        date = input("Masukkan Tanggal (YYYY-MM-DD): ")
-        print(f"\n{H}Laporan Janji untuk Tanggal:{R} {date}")
-        found = False
-        for aid, ainfo in data["appointments"].items():
-            sinfo = data["schedules"].get(ainfo["schedule_id"], {})
-            if sinfo.get("available_date") == date:
-                found = True
-                pinfo = data["patients"].get(ainfo["patient_id"], {"name": "Tidak Ditemukan"})
-                doc_info = data["doctors"].get(sinfo["doctor_id"], {"name": "Tidak Ditemukan"})
-                print(f"ID Janji: {aid}, Pasien: {pinfo['name']}, Dokter: {doc_info['name']}, Status: {H}{ainfo['status']}{R}")
-        if not found:
+    if pilihan_sub == '1':
+        tanggal = input("Masukkan Tanggal (YYYY-MM-DD): ")
+        print(f"\n{H}Laporan Janji untuk Tanggal:{R} {tanggal}")
+        ditemukan = False
+        for id_janji, info_janji in data["janji_temu"].items():
+            info_jadwal = data["jadwal"].get(info_janji["id_jadwal"], {})
+            if info_jadwal.get("tanggal_tersedia") == tanggal:
+                ditemukan = True
+                info_pasien = data["pasien"].get(info_janji["id_pasien"], {"nama": "Tidak Ditemukan"})
+                info_dokter = data["dokter"].get(info_jadwal["id_dokter"], {"nama": "Tidak Ditemukan"})
+                print(f"ID Janji: {id_janji}, Pasien: {info_pasien['nama']}, Dokter: {info_dokter['nama']}, Status: {H}{info_janji['status']}{R}")
+        if not ditemukan:
             print(Fore.YELLOW + "Tidak Ada data Laporan Janji harian")
             time.sleep(3)
             clear_screen()
-    elif sub_choice == '2':
+    elif pilihan_sub == '2':
         print(f"\n{H}Laporan Jumlah Pasien per Departemen:{R}")
-        dept_counts = {}
-        for aid, ainfo in data["appointments"].items():
-            sinfo = data["schedules"].get(ainfo["schedule_id"], {})
-            doc_info = data["doctors"].get(sinfo["doctor_id"], {})
-            dept_id = doc_info.get("specialty_id")
-            if dept_id:
-                dept_name = data["departments"].get(dept_id, {"name": "Tidak Ditemukan"})["name"]
-                dept_counts[dept_name] = dept_counts.get(dept_name, 0) + 1
-        if not dept_counts:
+        jumlah_per_dept = {}
+        for id_janji, info_janji in data["janji_temu"].items():
+            info_jadwal = data["jadwal"].get(info_janji["id_jadwal"], {})
+            info_dokter = data["dokter"].get(info_jadwal["id_dokter"], {})
+            id_departemen = info_dokter.get("id_spesialis")
+            if id_departemen:
+                nama_departemen = data["departemen"].get(id_departemen, {"nama": "Tidak Ditemukan"})["nama"]
+                jumlah_per_dept[nama_departemen] = jumlah_per_dept.get(nama_departemen, 0) + 1
+        if not jumlah_per_dept:
             print(Fore.YELLOW + "Tidak Ada data Laporan Pasien per Departemen")
             time.sleep(3)
             clear_screen()
         else:
-            for dept_name, count in dept_counts.items():
-                print(f"Departemen: {dept_name}, Jumlah Pasien: {count}")
-    elif sub_choice == '3':
+            for nama_departemen, jumlah in jumlah_per_dept.items():
+                print(f"Departemen: {nama_departemen}, Jumlah Pasien: {jumlah}")
+    elif pilihan_sub == '3':
         print(f"\n{H}Laporan Ruangan Tersedia:{R}")
-        available_rooms = [rinfo for rinfo in data["rooms"].values() if rinfo.get("is_available", True)]
-        if not available_rooms:
+        kamar_tersedia = [info_kamar for info_kamar in data["kamar"].values() if info_kamar.get("tersedia", True)]
+        if not kamar_tersedia:
             print(Fore.YELLOW + "Tidak ada ruangan yang tersedia saat ini.")
         else:
-            for rinfo in available_rooms:
-                print(f"Nama: {rinfo['name']}, Tipe: {rinfo['type']}")
+            for info_kamar in kamar_tersedia:
+                print(f"Nama: {info_kamar['nama']}, Tipe: {info_kamar['tipe']}")
     else:
         print(Fore.RED + "Pilihan tidak valid.")
         time.sleep(3)

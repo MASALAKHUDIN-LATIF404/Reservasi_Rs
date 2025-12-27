@@ -24,31 +24,31 @@ def main():
 
     while True:
         # Setiap kali kembali ke menu utama, data dimuat ulang untuk memastikan sesi baru (jika login ulang) mendapat data segar.
-        data = load_data()
+        # data = load_data() # Tidak lagi diperlukan di sini karena setiap fungsi meload datanya sendiri
         print("\n=== Aplikasi Reservasi Rumah Sakit ===")
         print("1. Login")
-        print("2. Register (User Biasa)")
+        print("2. Register (Pengguna Biasa)")
         print("3. Keluar")
-        choice = input("Pilih menu: ")
+        pilihan = input("Pilih menu: ")
 
-        if choice == '1':
-            user_id, username, role, patient_id = login(data)
-            if user_id: # Jika login berhasil (user_id tidak None)
+        if pilihan == '1':
+            id_pengguna, username, peran, id_pasien = login()
+            if id_pengguna: # Jika login berhasil (id_pengguna tidak None)
                 clear_screen()
-                if role == 'admin':
+                if peran == 'admin':
                     menu_admin() # Tidak perlu mengoper data lagi
-                elif role == 'staff':
+                elif peran == 'staff':
                     menu_staff() # Tidak perlu mengoper data lagi
-                elif role == 'user':
-                    menu_user(username, patient_id) # Tidak perlu mengoper data lagi
+                elif peran == 'user':
+                    menu_user(username, id_pasien) # Tidak perlu mengoper data lagi
                 else:
-                    print(Fore.RED + "Role tidak dikenali.")
+                    print(Fore.RED + "Peran tidak dikenali.")
             else:
                 time.sleep(2)
                 clear_screen()
-        elif choice == '2':
-            register(data)
-        elif choice == '3':
+        elif pilihan == '2':
+            register()
+        elif pilihan == '3':
             print("Terima kasih telah menggunakan aplikasi ini. Sampai jumpa!")
             break
         else:
